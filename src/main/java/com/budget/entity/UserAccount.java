@@ -13,10 +13,10 @@ public class UserAccount {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "USER_PK")  // 컬럼 지정
+    @JoinColumn(name = "USER_PK") // 컬럼 지정
     private UserPk userPk;
 
     @ManyToOne
-    @JoinColumn(name = "ACCOUNT")//어떤 column과 연결이 될 지 설정
+    @JoinColumn(name = "ACCOUNT") //어떤 column과 연결이 될 지 설정
     private Account account;
 }

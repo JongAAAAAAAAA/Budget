@@ -1,5 +1,6 @@
 package com.budget.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,8 +23,9 @@ public class Info {
     @Column(name = "INCOME")
     private Integer income;
 
+    @NotNull
     @Column(name = "DATE")
-    private LocalDate localDate;
+    private LocalDate localDate = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(name = "USER_PK")
