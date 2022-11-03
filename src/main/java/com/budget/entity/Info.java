@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -14,9 +15,6 @@ public class Info {
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "TOTAL")
-    private Integer total;
-
     @Column(name = "SPENDING")
     private Integer spending;
 
@@ -24,8 +22,15 @@ public class Info {
     private Integer income;
 
     @NotNull
-    @Column(name = "DATE")
-    private LocalDate localDate = LocalDate.now();
+    @Column(name = "LOCALDATETIME")
+    private LocalDateTime localDateTime;
+
+    @NotNull
+    @Column(name = "LOCALDATE")
+    private LocalDate localDate = localDateTime.toLocalDate();
+
+    @Column(name = "CONTENT")
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "USER_PK")

@@ -23,4 +23,7 @@ public class UserAccount {
     @Id
     @Column(name = "Account")
     private String account;
+
+    @Column(name = "TOTAL")
+    private Integer total;
 }
