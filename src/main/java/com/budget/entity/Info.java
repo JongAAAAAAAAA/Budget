@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Info {
     @Id  // Primary Key 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // AUTO_INCREMENT 설정 (id값이 null일 경우 자동 생성)
-    @Column(name = "ID")  // 컬럼 지정
+    @Column(name = "ID")
     private Integer id;
 
     @Column(name = "TOTAL")
@@ -33,5 +33,5 @@ public class Info {
 
     @ManyToOne
     @JoinColumn(name = "ACCOUNT")
-    private Account account;
+    private UserAccount userAccount;
 }
