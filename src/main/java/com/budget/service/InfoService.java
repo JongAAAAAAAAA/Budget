@@ -2,7 +2,6 @@ package com.budget.service;
 
 import com.budget.dao.InfoRepository;
 import com.budget.dao.UserAccountRepository;
-import com.budget.dao.UserPkRepository;
 import com.budget.dto.InfoDTO;
 import com.budget.entity.Info;
 import com.budget.entity.UserAccount;
@@ -27,14 +26,16 @@ public class InfoService {
 
         String userPk = infoDTO.getUserPk();
         String account = infoDTO.getAccount();
+        System.out.println("account = " + account);
         Integer money = infoDTO.getMoney();
         LocalDateTime localDateTime = infoDTO.getLocalDateTime();
         LocalDate localDate = localDateTime.toLocalDate();
         String content = infoDTO.getContent();
 
-        Optional<String> getAccount = userAccountRepository.findAccountByAccount(account);
+        Optional<String> getAccount = userAccountRepository.findAccountByUserPkAndAccount(new UserPk(userPk), account);
 
         info.setUserPk(new UserPk(userPk));
+        System.out.println("getAccount = " + getAccount.get());
         info.setAccount(getAccount.get());
         info.setSpending(money);
         info.setLocalDateTime(localDateTime);

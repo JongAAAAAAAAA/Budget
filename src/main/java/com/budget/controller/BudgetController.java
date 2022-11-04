@@ -94,12 +94,15 @@ public class BudgetController {
         Optional<List<Integer>> totalByUserPk = userAccountRepository.findTotalByUserPk(new UserPk(userAccountDTO.getUserPk()));
 
         System.out.println("totalByUserPk = " + totalByUserPk.get().get(0));
+
         int total = 0;
 
         for(int i=0; i<totalByUserPk.get().size(); i++){
             total += totalByUserPk.get().get(i);
         }
 
-        return 0;
+        return total;
     }
+
+    //취소도 만들어야함.
 }
