@@ -8,5 +8,4 @@ import java.util.Optional;
 
 public interface InfoRepository extends JpaRepository<Info, Integer> {
     Optional<Info> findByUserPkAndSpending(UserPk userPk, Integer spending);
-
 }

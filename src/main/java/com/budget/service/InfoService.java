@@ -32,11 +32,12 @@ public class InfoService {
         LocalDate localDate = localDateTime.toLocalDate();
         String content = infoDTO.getContent();
 
-        Optional<String> getAccount = userAccountRepository.findAccountByUserPkAndAccount(new UserPk(userPk), account);
+        Optional<UserAccount> getAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
         info.setUserPk(new UserPk(userPk));
-        System.out.println("getAccount = " + getAccount.get());
-        info.setAccount(getAccount.get());
+        System.out.println("getAccount = " + getAccount);
+        info.setAccount(getAccount.get().getAccount());
+        System.out.println("getAccount.get().getAccount() = " + getAccount.get().getAccount());
         info.setSpending(money);
         info.setLocalDateTime(localDateTime);
         info.setLocalDate(localDate);
@@ -52,9 +53,9 @@ public class InfoService {
         String account = infoDTO.getAccount();
         Integer money = infoDTO.getMoney();
 
-        Integer getTotal = userAccountRepository.findTotalByUserPkAndAccount(new UserPk(userPk), account).get();
+        UserAccount getTotal = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account).get();
 
-        final int i = getTotal;
+        final int i = getTotal.getTotal();
 
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
@@ -64,7 +65,7 @@ public class InfoService {
             updateTotal.setTotal(i-money);
 
             userAccountRepository.save(updateTotal);
-        });// else 문 로그 찍어야함
+        }); // else 문 로그 찍어야함
     }
 
     public void incomeUpdate(InfoDTO infoDTO){
@@ -74,9 +75,9 @@ public class InfoService {
         String account = infoDTO.getAccount();
         Integer money = infoDTO.getMoney();
 
-        Integer getTotal = userAccountRepository.findTotalByUserPkAndAccount(new UserPk(userPk), account).get();
+        UserAccount getTotal = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account).get();
 
-        final int i = getTotal;
+        final int i = getTotal.getTotal();
 
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 

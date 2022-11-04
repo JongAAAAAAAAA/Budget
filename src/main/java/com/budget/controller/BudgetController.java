@@ -91,14 +91,14 @@ public class BudgetController {
     int totalSearch(@RequestBody UserAccountDTO userAccountDTO){
         log.info("user 의 : {}, 총 금액 : {}", userAccountDTO.getUserPk(), userAccountDTO.getTotal());
 
-        Optional<List<Integer>> totalByUserPk = userAccountRepository.findTotalByUserPk(new UserPk(userAccountDTO.getUserPk()));
+        Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(userAccountDTO.getUserPk()));
 
-        System.out.println("totalByUserPk = " + totalByUserPk.get().get(0));
+        System.out.println("totalByUserPk = " + totalByUserPk.get().get(0).getTotal());
 
         int total = 0;
 
         for(int i=0; i<totalByUserPk.get().size(); i++){
-            total += totalByUserPk.get().get(i);
+            total += totalByUserPk.get().get(i).getTotal();
         }
 
         return total;

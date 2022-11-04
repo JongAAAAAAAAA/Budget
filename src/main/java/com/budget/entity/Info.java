@@ -1,9 +1,11 @@
 package com.budget.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,10 +27,14 @@ public class Info {
     private Integer income;
 
     //@NotNull
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "LOCALDATETIME")
     private LocalDateTime localDateTime = LocalDateTime.now();
 
     //@NotNull
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "LOCALDATE")
     private LocalDate localDate;
 
