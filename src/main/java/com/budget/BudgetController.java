@@ -1,14 +1,9 @@
 package com.budget;
 
-import com.budget.dao.UserAccountRepository;
-import com.budget.dao.UserPkRepository;
-import com.budget.dto.InfoDTO;
-import com.budget.dto.UserAccountDTO;
-import com.budget.dto.UserDTO;
-import com.budget.entity.Info;
-import com.budget.entity.UserAccount;
-import com.budget.entity.UserPk;
-import com.budget.service.UserAccountService;
+import com.budget.dao.*;
+import com.budget.dto.*;
+import com.budget.entity.*;
+import com.budget.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +23,7 @@ public class BudgetController {
     private final UserPkRepository userPkRepository;
     private final UserAccountRepository userAccountRepository;
     private final UserAccountService userAccountService;
+    private final InfoService infoService;
 
     @GetMapping
     String index(){
@@ -55,32 +53,53 @@ public class BudgetController {
     @ResponseBody
     @PostMapping("/register/total") // 계좌의 예산 등록
     void totalRegister(@RequestBody UserAccountDTO userAccountDTO){
-        log.info("user 의 : {}, 계좌의 : {}, 예산 등록 : {}",
+        log.info("user 의 : {}, 계좌 : {}, 예산 등록 : {}",
                 userAccountDTO.getUserPk(), userAccountDTO.getAccount(), userAccountDTO.getTotal());
 
+        Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(
+                new UserPk(userAccountDTO.getUserPk()), userAccountDTO.getAccount());
 
+        getUserAccount.ifPresent(updateTotal ->{
+            updateTotal.setUserPk(new UserPk(userAccountDTO.getUserPk()));
+            updateTotal.setAccount(userAccountDTO.getAccount());
+            updateTotal.setTotal(userAccountDTO.getTotal());
 
+            userAccountRepository.save(updateTotal);
+        });
     }
 
     @ResponseBody
-    @PostMapping("/update/spending") // 소비
+    @PostMapping("/update/spending") // 지출
     void spendingUpdate(@RequestBody InfoDTO infoDTO){
         log.info("user 의 : {}, 은행 : {}, 소비 금액 : {}, 날짜 : {}, 내용 : {}",
                 infoDTO.getUserPk(), infoDTO.getAccount(), infoDTO.getMoney(), infoDTO.getLocalDateTime(), infoDTO.getContent());
 
-        Info info = new Info();
+        infoService.spendingUpdate(infoDTO);
+    }
 
-        String userPk = infoDTO.getUserPk();
-        String account = infoDTO.getAccount();
-        Integer money = infoDTO.getMoney();
-        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
-        String content = infoDTO.getContent();
+    @ResponseBody
+    @PostMapping("/update/income") // 수입
+    void incomeUpdate(@RequestBody InfoDTO infoDTO){
+        log.info("user 의 : {}, 은행 : {}, 수입 금액 : {}, 날짜 : {}, 내용 : {}",
+                infoDTO.getUserPk(), infoDTO.getAccount(), infoDTO.getMoney(), infoDTO.getLocalDateTime(), infoDTO.getContent());
 
-        info.setUserPk(new UserPk(userPk));
-        info.setUserAccount(new UserAccount(account));
-        info.setSpending(money);
-        info.setLocalDateTime(localDateTime);
-        info.setContent(content);
+        infoService.incomeUpdate(infoDTO);
+    }
 
+    @ResponseBody
+    @PostMapping("/search/total/all") // 총 금액 조회
+    int totalSearch(@RequestBody UserAccountDTO userAccountDTO){
+        log.info("user 의 : {}, 총 금액 : {}", userAccountDTO.getUserPk(), userAccountDTO.getTotal());
+
+        Optional<List<Integer>> totalByUserPk = userAccountRepository.findTotalByUserPk(new UserPk(userAccountDTO.getUserPk()));
+
+        System.out.println("totalByUserPk = " + totalByUserPk.get().get(0));
+        int total = 0;
+
+        for(int i=0; i<totalByUserPk.get().size(); i++){
+            total += totalByUserPk.get().get(i);
+        }
+
+        return 0;
     }
 }
