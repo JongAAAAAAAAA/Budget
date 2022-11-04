@@ -1,4 +1,4 @@
-package com.budget;
+package com.budget.controller;
 
 import com.budget.dao.*;
 import com.budget.dto.*;
@@ -37,7 +37,7 @@ public class BudgetController {
 
         UserPk userPK = new UserPk();
 
-        userPK.setUserPk(userPK.getUserPk());
+        userPK.setUserPk(userDTO.getUserPk());
 
         userPkRepository.save(userPK);
     }

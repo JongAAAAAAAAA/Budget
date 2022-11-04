@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Data
 @Entity
 public class Info {
@@ -23,22 +24,21 @@ public class Info {
     @Column(name = "INCOME")
     private Integer income;
 
-    @NotNull
+    //@NotNull
     @Column(name = "LOCALDATETIME")
-    private LocalDateTime localDateTime;
+    private LocalDateTime localDateTime = LocalDateTime.now();
 
-    @NotNull
+    //@NotNull
     @Column(name = "LOCALDATE")
-    private LocalDate localDate = localDateTime.toLocalDate();
+    private LocalDate localDate;
 
     @Column(name = "CONTENT")
     private String content;
 
+    @Column(name = "ACCOUNT")
+    private String account;
+
     @ManyToOne
     @JoinColumn(name = "USER_PK")
     private UserPk userPk;
-
-    @ManyToOne
-    @JoinColumn(name = "ACCOUNT")
-    private UserAccount userAccount;
 }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -18,7 +19,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class InfoService {
-    private final UserPkRepository userPkRepository;
     private final InfoRepository infoRepository;
     private final UserAccountRepository userAccountRepository;
 
@@ -29,14 +29,16 @@ public class InfoService {
         String account = infoDTO.getAccount();
         Integer money = infoDTO.getMoney();
         LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+        LocalDate localDate = localDateTime.toLocalDate();
         String content = infoDTO.getContent();
 
         Optional<String> getAccount = userAccountRepository.findAccountByAccount(account);
 
         info.setUserPk(new UserPk(userPk));
-        info.setUserAccount(new UserAccount().getAccount(getAccount));
+        info.setAccount(getAccount.get());
         info.setSpending(money);
         info.setLocalDateTime(localDateTime);
+        info.setLocalDate(localDate);
         info.setContent(content);
 
         infoRepository.save(info);
@@ -48,7 +50,6 @@ public class InfoService {
         String userPk = infoDTO.getUserPk();
         String account = infoDTO.getAccount();
         Integer money = infoDTO.getMoney();
-
 
         Integer getTotal = userAccountRepository.findTotalByUserPkAndAccount(new UserPk(userPk), account).get();
 
@@ -62,7 +63,7 @@ public class InfoService {
             updateTotal.setTotal(i-money);
 
             userAccountRepository.save(updateTotal);
-        });
+        });// else 문 로그 찍어야함
     }
 
     public void incomeUpdate(InfoDTO infoDTO){
@@ -74,7 +75,7 @@ public class InfoService {
 
         Integer getTotal = userAccountRepository.findTotalByUserPkAndAccount(new UserPk(userPk), account).get();
 
-        final int i = getTotal
+        final int i = getTotal;
 
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
