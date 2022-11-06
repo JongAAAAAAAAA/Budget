@@ -21,7 +21,29 @@ public class InfoService {
     private final InfoRepository infoRepository;
     private final UserAccountRepository userAccountRepository;
 
-    public void moneyUpdate(InfoDTO infoDTO){
+//    public void moneyUpdate(InfoDTO infoDTO){
+//        Info info = new Info();
+//
+//        String userPk = infoDTO.getUserPk();
+//        String account = infoDTO.getAccount();
+//        Integer money = infoDTO.getMoney();
+//        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+//        LocalDate localDate = localDateTime.toLocalDate();
+//        String content = infoDTO.getContent();
+//
+//        Optional<UserAccount> getAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+//
+//        info.setUserPk(new UserPk(userPk));
+//        info.setAccount(getAccount.get().getAccount());
+//        info.setSpending(money);
+//        info.setLocalDateTime(localDateTime);
+//        info.setLocalDate(localDate);
+//        info.setContent(content);
+//
+//        infoRepository.save(info);
+//    }
+
+    public void spendingUpdate(InfoDTO infoDTO){
         Info info = new Info();
 
         String userPk = infoDTO.getUserPk();
@@ -41,14 +63,6 @@ public class InfoService {
         info.setContent(content);
 
         infoRepository.save(info);
-    }
-
-    public void spendingUpdate(InfoDTO infoDTO){
-        moneyUpdate(infoDTO);
-
-        String userPk = infoDTO.getUserPk();
-        String account = infoDTO.getAccount();
-        Integer money = infoDTO.getMoney();
 
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
@@ -64,11 +78,25 @@ public class InfoService {
     }
 
     public void incomeUpdate(InfoDTO infoDTO){
-        moneyUpdate(infoDTO);
+        Info info = new Info();
 
         String userPk = infoDTO.getUserPk();
         String account = infoDTO.getAccount();
         Integer money = infoDTO.getMoney();
+        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+        LocalDate localDate = localDateTime.toLocalDate();
+        String content = infoDTO.getContent();
+
+        Optional<UserAccount> getAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+
+        info.setUserPk(new UserPk(userPk));
+        info.setAccount(getAccount.get().getAccount());
+        info.setIncome(money);
+        info.setLocalDateTime(localDateTime);
+        info.setLocalDate(localDate);
+        info.setContent(content);
+
+        infoRepository.save(info);
 
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
