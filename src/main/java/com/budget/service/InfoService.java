@@ -26,7 +26,6 @@ public class InfoService {
 
         String userPk = infoDTO.getUserPk();
         String account = infoDTO.getAccount();
-        System.out.println("account = " + account);
         Integer money = infoDTO.getMoney();
         LocalDateTime localDateTime = infoDTO.getLocalDateTime();
         LocalDate localDate = localDateTime.toLocalDate();
@@ -35,9 +34,7 @@ public class InfoService {
         Optional<UserAccount> getAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
         info.setUserPk(new UserPk(userPk));
-        System.out.println("getAccount = " + getAccount);
         info.setAccount(getAccount.get().getAccount());
-        System.out.println("getAccount.get().getAccount() = " + getAccount.get().getAccount());
         info.setSpending(money);
         info.setLocalDateTime(localDateTime);
         info.setLocalDate(localDate);
@@ -53,16 +50,14 @@ public class InfoService {
         String account = infoDTO.getAccount();
         Integer money = infoDTO.getMoney();
 
-        UserAccount getTotal = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account).get();
-
-        final int i = getTotal.getTotal();
-
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+
+        final Integer total = getUserAccount.get().getTotal();
 
         getUserAccount.ifPresent(updateTotal ->{
             updateTotal.setUserPk(new UserPk(userPk));
             updateTotal.setAccount(account);
-            updateTotal.setTotal(i-money);
+            updateTotal.setTotal(total-money);
 
             userAccountRepository.save(updateTotal);
         }); // else 문 로그 찍어야함
@@ -75,16 +70,14 @@ public class InfoService {
         String account = infoDTO.getAccount();
         Integer money = infoDTO.getMoney();
 
-        UserAccount getTotal = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account).get();
-
-        final int i = getTotal.getTotal();
-
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+
+        final Integer total = getUserAccount.get().getTotal();
 
         getUserAccount.ifPresent(updateTotal ->{
             updateTotal.setUserPk(new UserPk(userPk));
             updateTotal.setAccount(account);
-            updateTotal.setTotal(i+money);
+            updateTotal.setTotal(total+money);
 
             userAccountRepository.save(updateTotal);
         });
