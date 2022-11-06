@@ -89,5 +89,33 @@ public class InfoService {
         });
     }
 
+    public void detailUpdate(InfoDTO infoDTO){
+        String userPk = infoDTO.getUserPk();
+        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
 
+        Optional<Info> userPkAndLocalDateTime = infoRepository.findByUserPkAndLocalDateTime(new UserPk(userPk), localDateTime);
+
+        userPkAndLocalDateTime.ifPresent(updateDetail ->{
+            if (userPkAndLocalDateTime.get().getIncome() != null){
+                updateDetail.setIncome(infoDTO.getMoney());
+            }
+            else{
+                updateDetail.setSpending(infoDTO.getMoney());
+            }
+
+
+            infoRepository.save(updateDetail);
+        });
+    }
+
+    public void detailDelete(InfoDTO infoDTO){
+        String userPk = infoDTO.getUserPk();
+        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+
+        Optional<Info> userPkAndLocalDateTime = infoRepository.findByUserPkAndLocalDateTime(new UserPk(userPk), localDateTime);
+
+        userPkAndLocalDateTime.ifPresent(deleteDetail ->{
+            infoRepository.delete(userPkAndLocalDateTime.get());
+        });
+    }
 }

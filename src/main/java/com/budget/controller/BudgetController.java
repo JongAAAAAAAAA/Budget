@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,6 +105,47 @@ public class BudgetController {
     }
 
     @ResponseBody
+    @PostMapping("/search/spending/day") // 하루 지출 조회
+    int daySpendingSearch(@RequestBody InfoDTO infoDTO){
+        log.info("user {} 의 하루 지출 조회", infoDTO.getUserPk());
+
+        Optional<List<Info>> getList = infoRepository.findByUserPkAndLocalDateAndIncome(
+                new UserPk(infoDTO.getUserPk()), infoDTO.getLocalDate(), null);
+
+        System.out.println("infoDTO = " + infoDTO.getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
+        Integer spending = 0;
+
+        for (int i=0; i<getList.get().size(); i++){
+            spending += getList.get().get(i).getSpending();
+        }
+
+        return spending;
+    }
+
+    @ResponseBody
+    @PostMapping("/search/spending/month") // 한 달 지출 조회 , 한 달 조회시 년 월 일 까지 지정해야하는데 특정 달 클릭시 1일로 출력되게끔 설정해야함
+    int monthSpendingSearch(@RequestBody InfoDTO infoDTO) {
+        log.info("user {} 의 한 달 지출 조회", infoDTO.getUserPk());
+
+        Optional<List<Info>> getList = infoRepository.findByUserPkAndLocalDateAndIncome(
+                new UserPk(infoDTO.getUserPk()), infoDTO.getLocalDate(), null);
+
+        Integer spending = 0;
+
+        for (int i = 0; i < getList.get().size(); i++) {
+            log.info("1 : {}", getList.get().get(i).getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
+            log.info("2 : {}", infoDTO.getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
+
+            if (infoDTO.getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM"))
+                    .equals(getList.get().get(i).getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM")))
+            ) {
+                spending += getList.get().get(i).getSpending();
+            }
+        }
+            return spending;
+    }
+
+    @ResponseBody
     @PostMapping("/search/spending/all") // 총 지출 조회
     int allSpendingSearch(@RequestBody InfoDTO infoDTO){
         log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
@@ -132,9 +174,9 @@ public class BudgetController {
     @ResponseBody
     @PostMapping("/update/detail") // 내역 수정
     void updateDetail(@RequestBody InfoDTO infoDTO){
-        log.info("user {} 의 내역 삭제", infoDTO.getUserPk());
+        log.info("user {} 의 내역 수정", infoDTO.getUserPk());
 
-
+        infoService.detailUpdate(infoDTO);
     }
 
     @ResponseBody
@@ -142,9 +184,8 @@ public class BudgetController {
     void deleteDetail(@RequestBody InfoDTO infoDTO){
         log.info("user {} 의 내역 삭제", infoDTO.getUserPk());
 
-
+        infoService.detailDelete(infoDTO);
     }
 
-    //한 달 쓴 금액 조회?
-
+    // update 랑 delete 랑 한 달 조회만 하면 끝나나?
 }
