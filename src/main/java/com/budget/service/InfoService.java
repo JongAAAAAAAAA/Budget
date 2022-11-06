@@ -21,28 +21,6 @@ public class InfoService {
     private final InfoRepository infoRepository;
     private final UserAccountRepository userAccountRepository;
 
-//    public void moneyUpdate(InfoDTO infoDTO){
-//        Info info = new Info();
-//
-//        String userPk = infoDTO.getUserPk();
-//        String account = infoDTO.getAccount();
-//        Integer money = infoDTO.getMoney();
-//        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
-//        LocalDate localDate = localDateTime.toLocalDate();
-//        String content = infoDTO.getContent();
-//
-//        Optional<UserAccount> getAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
-//
-//        info.setUserPk(new UserPk(userPk));
-//        info.setAccount(getAccount.get().getAccount());
-//        info.setSpending(money);
-//        info.setLocalDateTime(localDateTime);
-//        info.setLocalDate(localDate);
-//        info.setContent(content);
-//
-//        infoRepository.save(info);
-//    }
-
     public void spendingUpdate(InfoDTO infoDTO){
         Info info = new Info();
 
@@ -110,4 +88,6 @@ public class InfoService {
             userAccountRepository.save(updateTotal);
         });
     }
+
+
 }

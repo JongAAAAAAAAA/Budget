@@ -22,6 +22,7 @@ import java.util.Optional;
 public class BudgetController {
     private final UserPkRepository userPkRepository;
     private final UserAccountRepository userAccountRepository;
+    private final InfoRepository infoRepository;
     private final UserAccountService userAccountService;
     private final InfoService infoService;
 
@@ -45,7 +46,7 @@ public class BudgetController {
     @ResponseBody
     @PostMapping("/register/useraccount") // 유저의 계좌 등록
     void userAccountRegister(@RequestBody UserAccountDTO userAccountDTO){
-        log.info("user 의 : {}, 계좌 등록 : {}", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
+        log.info("user {} 의, 계좌 등록 : {}", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
 
         userAccountService.userAccountRegister(userAccountDTO);
     }
@@ -53,7 +54,7 @@ public class BudgetController {
     @ResponseBody
     @PostMapping("/register/total") // 계좌의 예산 등록
     void totalRegister(@RequestBody UserAccountDTO userAccountDTO){
-        log.info("user 의 : {}, 계좌 : {}, 예산 등록 : {}",
+        log.info("user {} 의, 계좌 : {}, 예산 등록 : {}",
                 userAccountDTO.getUserPk(), userAccountDTO.getAccount(), userAccountDTO.getTotal());
 
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(
@@ -71,7 +72,7 @@ public class BudgetController {
     @ResponseBody
     @PostMapping("/update/spending") // 지출
     void spendingUpdate(@RequestBody InfoDTO infoDTO){
-        log.info("user 의 : {}, 은행 : {}, 소비 금액 : {}, 날짜 : {}, 내용 : {}",
+        log.info("user {} 의, 은행 : {}, 소비 금액 : {}, 날짜 : {}, 내용 : {}",
                 infoDTO.getUserPk(), infoDTO.getAccount(), infoDTO.getMoney(), infoDTO.getLocalDateTime(), infoDTO.getContent());
 
         infoService.spendingUpdate(infoDTO);
@@ -80,22 +81,20 @@ public class BudgetController {
     @ResponseBody
     @PostMapping("/update/income") // 수입
     void incomeUpdate(@RequestBody InfoDTO infoDTO){
-        log.info("user 의 : {}, 은행 : {}, 수입 금액 : {}, 날짜 : {}, 내용 : {}",
+        log.info("user {} 의, 은행 : {}, 수입 금액 : {}, 날짜 : {}, 내용 : {}",
                 infoDTO.getUserPk(), infoDTO.getAccount(), infoDTO.getMoney(), infoDTO.getLocalDateTime(), infoDTO.getContent());
 
         infoService.incomeUpdate(infoDTO);
     }
 
     @ResponseBody
-    @PostMapping("/search/total/all") // 총 금액 조회
-    int totalSearch(@RequestBody UserAccountDTO userAccountDTO){
-        log.info("user 의 : {}, 총 금액 : {}", userAccountDTO.getUserPk(), userAccountDTO.getTotal());
+    @PostMapping("/search/total/all") // 총 예산 조회
+    int totalSearch(@RequestBody InfoDTO infoDTO){
+        log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
 
-        Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(userAccountDTO.getUserPk()));
+        Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(infoDTO.getUserPk()));
 
-        System.out.println("totalByUserPk = " + totalByUserPk.get().get(0).getTotal());
-
-        int total = 0;
+        Integer total = 0;
 
         for(int i=0; i<totalByUserPk.get().size(); i++){
             total += totalByUserPk.get().get(i).getTotal();
@@ -104,5 +103,48 @@ public class BudgetController {
         return total;
     }
 
-    //취소도 만들어야함.
+    @ResponseBody
+    @PostMapping("/search/spending/all") // 총 지출 조회
+    int allSpendingSearch(@RequestBody InfoDTO infoDTO){
+        log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
+
+        Optional<List<Info>> userPk = infoRepository.findByUserPkAndIncome(new UserPk(infoDTO.getUserPk()), null);
+
+        Integer spending = 0;
+
+        for (int i=0; i<userPk.get().size(); i++){
+            spending += userPk.get().get(i).getSpending();
+        }
+
+        return spending;
+    }
+
+    @ResponseBody
+    @PostMapping("/search/balance") // 잔액 조회
+    int balanceSearch(@RequestBody InfoDTO infoDTO){
+        log.info("user {} 의 잔액 조회", infoDTO.getUserPk());
+
+        Integer balance = totalSearch(infoDTO) - allSpendingSearch(infoDTO);
+
+        return balance;
+    }
+
+    @ResponseBody
+    @PostMapping("/update/detail") // 내역 수정
+    void updateDetail(@RequestBody InfoDTO infoDTO){
+        log.info("user {} 의 내역 삭제", infoDTO.getUserPk());
+
+
+    }
+
+    @ResponseBody
+    @PostMapping("/delete/detail") // 내역 삭제
+    void deleteDetail(@RequestBody InfoDTO infoDTO){
+        log.info("user {} 의 내역 삭제", infoDTO.getUserPk());
+
+
+    }
+
+    //한 달 쓴 금액 조회?
+
 }
