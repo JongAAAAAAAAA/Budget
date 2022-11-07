@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 public class InfoDTO {
-    Integer money;
+    Integer money, id;
     String userPk, content, account;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")

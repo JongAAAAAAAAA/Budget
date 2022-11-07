@@ -89,33 +89,74 @@ public class InfoService {
         });
     }
 
-    public void detailUpdate(InfoDTO infoDTO){
+    public void detailUpdate(InfoDTO infoDTO) {
+        Optional<Info> getId = infoRepository.findById(infoDTO.getId());
+
+        UserAccount userAccount = new UserAccount();
+
         String userPk = infoDTO.getUserPk();
-        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+        String account = infoDTO.getAccount();
 
-        Optional<Info> userPkAndLocalDateTime = infoRepository.findByUserPkAndLocalDateTime(new UserPk(userPk), localDateTime);
+        if (getId.get().getIncome() != null) { // 수입인 경우의 Update
+            Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
-        userPkAndLocalDateTime.ifPresent(updateDetail ->{
-            if (userPkAndLocalDateTime.get().getIncome() != null){
-                updateDetail.setIncome(infoDTO.getMoney());
-            }
-            else{
-                updateDetail.setSpending(infoDTO.getMoney());
-            }
+            final Integer total = getUserAccount.get().getTotal();
 
+            userAccount.setTotal(total - getId.get().getIncome());
 
-            infoRepository.save(updateDetail);
-        });
+            userAccountRepository.save(userAccount);
+
+            incomeUpdate(infoDTO);
+        } else { // 지출인 경우의 Update
+            Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+
+            final Integer total = getUserAccount.get().getTotal();
+
+            userAccount.setTotal(total + getId.get().getIncome());
+
+            userAccountRepository.save(userAccount);
+
+            spendingUpdate(infoDTO);
+        }
     }
+//    }
+//
+//    public void detailUpdate(InfoDTO infoDTO){
+//        String userPk = infoDTO.getUserPk();
+//        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+//
+//        Optional<Info> userPkAndLocalDateTime = infoRepository.findByUserPkAndLocalDateTime(new UserPk(userPk), localDateTime);
+//
+//        userPkAndLocalDateTime.ifPresent(updateDetail ->{
+//            if (userPkAndLocalDateTime.get().getIncome() != null){
+//                updateDetail.setIncome(infoDTO.getMoney());
+//            }
+//            else{
+//                updateDetail.setSpending(infoDTO.getMoney());
+//            }
+//
+//
+//            infoRepository.save(updateDetail);
+//        });
+//    }
 
     public void detailDelete(InfoDTO infoDTO){
-        String userPk = infoDTO.getUserPk();
-        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+        Optional<Info> getId = infoRepository.findById(infoDTO.getId());
 
-        Optional<Info> userPkAndLocalDateTime = infoRepository.findByUserPkAndLocalDateTime(new UserPk(userPk), localDateTime);
-
-        userPkAndLocalDateTime.ifPresent(deleteDetail ->{
-            infoRepository.delete(userPkAndLocalDateTime.get());
+        getId.ifPresent(deleteDetail ->{
+            infoRepository.delete(getId.get());
         });
     }
+
+//    public void detailDelete(InfoDTO infoDTO){
+//        String userPk = infoDTO.getUserPk();
+//        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+//
+//        Optional<Info> userPkAndLocalDateTime = infoRepository.findByUserPkAndLocalDateTime(new UserPk(userPk), localDateTime);
+//
+//
+//        userPkAndLocalDateTime.ifPresent(deleteDetail ->{
+//            infoRepository.delete(userPkAndLocalDateTime.get());
+//        });
+//    }
 }

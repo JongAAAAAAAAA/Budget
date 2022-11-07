@@ -184,8 +184,10 @@ public class BudgetController {
     void deleteDetail(@RequestBody InfoDTO infoDTO){
         log.info("user {} 의 내역 삭제", infoDTO.getUserPk());
 
-        infoService.detailDelete(infoDTO);
+        Optional<Info> getId = infoRepository.findById(infoDTO.getId());
+
+        infoRepository.delete(getId.get());
     }
 
-    // update 랑 delete 랑 한 달 조회만 하면 끝나나?
+    // update, 각 account 에 맞는 토탈?
 }
