@@ -11,6 +11,6 @@ import java.util.Optional;
 
 public interface InfoRepository extends JpaRepository<Info, Integer> {
     Optional<List<Info>> findByUserPkAndIncome(UserPk userPk, Integer income);
-    Optional<Info> findByUserPkAndLocalDateTime(UserPk userPk, LocalDateTime localDateTime);
+    Optional<List<Info>> findByUserPkAndAccountAndIncome(UserPk userPk, String account, Integer income);
     Optional<List<Info>> findByUserPkAndLocalDateAndIncome(UserPk userPk, LocalDate localDate, Integer income);
 }

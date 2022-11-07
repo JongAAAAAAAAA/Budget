@@ -89,6 +89,18 @@ public class BudgetController {
     }
 
     @ResponseBody
+    @PostMapping("/search/total/each") // 특정 계좌 예산 조회
+    int totalSearchEach(@RequestBody InfoDTO infoDTO) {
+        log.info("user {} 의 계좌 {} 예산 조회", infoDTO.getUserPk(), infoDTO.getAccount());
+
+        Optional<UserAccount> getTotal = userAccountRepository.findByUserPkAndAccount(new UserPk(infoDTO.getUserPk()), infoDTO.getAccount());
+
+        Integer total = getTotal.get().getTotal();
+
+        return total;
+    }
+
+    @ResponseBody
     @PostMapping("/search/total/all") // 총 예산 조회
     int totalSearch(@RequestBody InfoDTO infoDTO){
         log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
@@ -162,6 +174,23 @@ public class BudgetController {
     }
 
     @ResponseBody
+    @PostMapping("/search/spending/each") // 특정 계좌 지출 조회
+    int spendingSearchEach(@RequestBody InfoDTO infoDTO) {
+        log.info("user {} 의 계좌 {} 지출 조회", infoDTO.getUserPk(), infoDTO.getAccount());
+
+        Optional<List<Info>> getSpending = infoRepository.findByUserPkAndAccountAndIncome(
+                new UserPk(infoDTO.getUserPk()), infoDTO.getAccount(), null);
+
+        Integer spending = 0;
+
+        for (int i=0; i<getSpending.get().size(); i++){
+            spending += getSpending.get().get(i).getSpending();
+        }
+
+        return spending;
+    }
+
+    @ResponseBody
     @PostMapping("/search/balance") // 잔액 조회
     int balanceSearch(@RequestBody InfoDTO infoDTO){
         log.info("user {} 의 잔액 조회", infoDTO.getUserPk());
@@ -188,6 +217,4 @@ public class BudgetController {
 
         infoRepository.delete(getId.get());
     }
-
-    // update, 각 account 에 맞는 토탈?
 }
