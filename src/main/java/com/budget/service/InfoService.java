@@ -92,49 +92,73 @@ public class InfoService {
     public void detailUpdate(InfoDTO infoDTO) {
         Optional<Info> getId = infoRepository.findById(infoDTO.getId());
 
-        UserAccount userAccount = new UserAccount();
-
         String userPk = infoDTO.getUserPk();
         String account = infoDTO.getAccount();
 
-        if (getId.get().getIncome() != null) { // 수입인 경우의 Update
-            Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+        getId.ifPresent(updateDetail -> {
+            if (getId.get().getIncome() != null) { // 수입인 경우의 update
+                Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
-            final Integer total = getUserAccount.get().getTotal();
+                final Integer total = getUserAccount.get().getTotal();
 
-            userAccount.setTotal(total - getId.get().getIncome());
+                getUserAccount.ifPresent(updateTotal -> {
+                    updateTotal.setTotal(total - getId.get().getIncome());
 
-            userAccountRepository.save(userAccount);
+                    userAccountRepository.save(updateTotal);
+                });
 
-            incomeUpdate(infoDTO);
-        } else { // 지출인 경우의 Update
-            Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+                updateDetail.set //하나의 로우를 바꿔버려야함. 거기서 바뀌는 income spending의 변화에 따른 total이 업데이트 돼야하고
+                // 이걸 incomeupdate를 쓰면서 야무지게 할 수 있는 방법이 없을까 고민해야함.
 
-            final Integer total = getUserAccount.get().getTotal();
+                incomeUpdate(infoDTO);
+            } else { // 지출인 경우의 update
+                Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
-            userAccount.setTotal(total + getId.get().getIncome());
+                final Integer total = getUserAccount.get().getTotal();
 
-            userAccountRepository.save(userAccount);
+                getUserAccount.ifPresent(updateTotal -> {
+                    updateTotal.setTotal(total + getId.get().getIncome());
 
-            spendingUpdate(infoDTO);
-        }
+                    userAccountRepository.save(updateTotal);
+                });
+
+                spendingUpdate(infoDTO);
+            }
+
+            infoRepository.save(updateDetail);
+        });
     }
-//    }
+
+//    public void detailUpdate(InfoDTO infoDTO) {
+//        Optional<Info> getId = infoRepository.findById(infoDTO.getId());
 //
-//    public void detailUpdate(InfoDTO infoDTO){
+//        UserAccount userAccount = new UserAccount();
+//
 //        String userPk = infoDTO.getUserPk();
-//        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+//        String account = infoDTO.getAccount();
 //
-//        Optional<Info> userPkAndLocalDateTime = infoRepository.findByUserPkAndLocalDateTime(new UserPk(userPk), localDateTime);
+//        getId.ifPresent(updateDetail -> {
+//            if (getId.get().getIncome() != null) { // 수입인 경우의 update
+//                Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 //
-//        userPkAndLocalDateTime.ifPresent(updateDetail ->{
-//            if (userPkAndLocalDateTime.get().getIncome() != null){
-//                updateDetail.setIncome(infoDTO.getMoney());
+//                final Integer total = getUserAccount.get().getTotal();
+//
+//                userAccount.setTotal(total - getId.get().getIncome());
+//
+//                userAccountRepository.save(userAccount);
+//
+//                incomeUpdate(infoDTO);
+//            } else { // 지출인 경우의 update
+//                Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+//
+//                final Integer total = getUserAccount.get().getTotal();
+//
+//                userAccount.setTotal(total + getId.get().getIncome());
+//
+//                userAccountRepository.save(userAccount);
+//
+//                spendingUpdate(infoDTO);
 //            }
-//            else{
-//                updateDetail.setSpending(infoDTO.getMoney());
-//            }
-//
 //
 //            infoRepository.save(updateDetail);
 //        });

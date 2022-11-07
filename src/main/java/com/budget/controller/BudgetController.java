@@ -124,7 +124,6 @@ public class BudgetController {
         Optional<List<Info>> getList = infoRepository.findByUserPkAndLocalDateAndIncome(
                 new UserPk(infoDTO.getUserPk()), infoDTO.getLocalDate(), null);
 
-        System.out.println("infoDTO = " + infoDTO.getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
         Integer spending = 0;
 
         for (int i=0; i<getList.get().size(); i++){
@@ -134,7 +133,7 @@ public class BudgetController {
         return spending;
     }
 
-    @ResponseBody
+    @ResponseBody // 수정해야함 findbyuserpkandlocaldateandincome 에 getlocaldate 들어가는 순간 한 달을 잡을 수가 없음
     @PostMapping("/search/spending/month") // 한 달 지출 조회 , 한 달 조회시 년 월 일 까지 지정해야하는데 특정 달 클릭시 1일로 출력되게끔 설정해야함
     int monthSpendingSearch(@RequestBody InfoDTO infoDTO) {
         log.info("user {} 의 한 달 지출 조회", infoDTO.getUserPk());
@@ -190,26 +189,26 @@ public class BudgetController {
         return spending;
     }
 
+//    @ResponseBody
+//    @PostMapping("/search/balance") // 잔액 조회, 이게 뭐지? 이거 search/total/all를 나타내고자 한 건데 balance 부분 조차 목적이 원래랑 다름
+//    int balanceSearch(@RequestBody InfoDTO infoDTO){
+//        log.info("user {} 의 잔액 조회", infoDTO.getUserPk());
+//
+//        Integer balance = totalSearch(infoDTO) - allSpendingSearch(infoDTO);
+//
+//        return balance;
+//    }
+
     @ResponseBody
-    @PostMapping("/search/balance") // 잔액 조회
-    int balanceSearch(@RequestBody InfoDTO infoDTO){
-        log.info("user {} 의 잔액 조회", infoDTO.getUserPk());
-
-        Integer balance = totalSearch(infoDTO) - allSpendingSearch(infoDTO);
-
-        return balance;
-    }
-
-    @ResponseBody
-    @PostMapping("/update/detail") // 내역 수정
+    @PostMapping("/update/detail") // 내역 수정 , 다시 짜야함
     void updateDetail(@RequestBody InfoDTO infoDTO){
-        log.info("user {} 의 내역 수정", infoDTO.getUserPk());
+        log.info("id {} 의 내역 수정", infoDTO.getId());
 
         infoService.detailUpdate(infoDTO);
     }
 
     @ResponseBody
-    @PostMapping("/delete/detail") // 내역 삭제
+    @PostMapping("/delete/detail") // 내역 삭제 , 내역 삭제시에 spending 삭제인 지 income 삭제인 지 구분돼야함
     void deleteDetail(@RequestBody InfoDTO infoDTO){
         log.info("user {} 의 내역 삭제", infoDTO.getUserPk());
 
