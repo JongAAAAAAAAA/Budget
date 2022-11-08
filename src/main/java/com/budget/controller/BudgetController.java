@@ -198,7 +198,7 @@ public class BudgetController {
 //    }
 
     @ResponseBody
-    @PostMapping("/update/detail") // 내역 수정 , 다시 짬
+    @PostMapping("/update/detail") // 내역 수정 , 다시 짰음
     void updateDetail(@RequestBody InfoDTO infoDTO){
         log.info("id {} 의 내역 수정", infoDTO.getId());
 
