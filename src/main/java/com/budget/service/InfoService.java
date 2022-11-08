@@ -42,14 +42,14 @@ public class InfoService {
 
         infoRepository.save(info);
 
-        Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+        //Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
-        final Integer total = getUserAccount.get().getTotal();
+        final Integer total = getAccount.get().getTotal();
 
-        getUserAccount.ifPresent(updateTotal ->{
-            updateTotal.setUserPk(new UserPk(userPk));
-            updateTotal.setAccount(account);
-            updateTotal.setTotal(total-money);
+        getAccount.ifPresent(updateTotal ->{
+            //updateTotal.setUserPk(new UserPk(userPk));
+            //updateTotal.setAccount(account);
+            updateTotal.setTotal(total - money);
 
             userAccountRepository.save(updateTotal);
         }); // else 문 로그 찍어야함
@@ -76,14 +76,14 @@ public class InfoService {
 
         infoRepository.save(info);
 
-        Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+        //Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
-        final Integer total = getUserAccount.get().getTotal();
+        final Integer total = getAccount.get().getTotal();
 
-        getUserAccount.ifPresent(updateTotal ->{
-            updateTotal.setUserPk(new UserPk(userPk));
-            updateTotal.setAccount(account);
-            updateTotal.setTotal(total+money);
+        getAccount.ifPresent(updateTotal ->{
+            //updateTotal.setUserPk(new UserPk(userPk));
+            //updateTotal.setAccount(account);
+            updateTotal.setTotal(total + money);
 
             userAccountRepository.save(updateTotal);
         });
@@ -94,6 +94,10 @@ public class InfoService {
 
         String userPk = infoDTO.getUserPk();
         String account = infoDTO.getAccount();
+        Integer money = infoDTO.getMoney();
+        LocalDateTime localDateTime = infoDTO.getLocalDateTime();
+        LocalDate localDate = localDateTime.toLocalDate();
+        String content = infoDTO.getContent();
 
         getId.ifPresent(updateDetail -> {
             if (getId.get().getIncome() != null) { // 수입인 경우의 update
@@ -107,10 +111,23 @@ public class InfoService {
                     userAccountRepository.save(updateTotal);
                 });
 
-                updateDetail.set //하나의 로우를 바꿔버려야함. 거기서 바뀌는 income spending의 변화에 따른 total이 업데이트 돼야하고
+                updateDetail.setAccount(getUserAccount.get().getAccount());
+                updateDetail.setContent(content);
+                updateDetail.setIncome(money);
+                updateDetail.setLocalDateTime(localDateTime);
+                updateDetail.setLocalDate(localDate);
+
+                infoRepository.save(updateDetail);
+
+                getUserAccount.ifPresent(updateTotal -> {
+                    updateTotal.setTotal(total + money);
+
+                    userAccountRepository.save(updateTotal);
+                });
+            //하나의 로우를 바꿔버려야함. 거기서 바뀌는 income spending의 변화에 따른 total이 업데이트 돼야하고
                 // 이걸 incomeupdate를 쓰면서 야무지게 할 수 있는 방법이 없을까 고민해야함.
 
-                incomeUpdate(infoDTO);
+//                incomeUpdate(infoDTO);
             } else { // 지출인 경우의 update
                 Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
 
@@ -122,10 +139,24 @@ public class InfoService {
                     userAccountRepository.save(updateTotal);
                 });
 
-                spendingUpdate(infoDTO);
+                updateDetail.setAccount(getUserAccount.get().getAccount());
+                updateDetail.setContent(content);
+                updateDetail.setSpending(money);
+                updateDetail.setLocalDateTime(localDateTime);
+                updateDetail.setLocalDate(localDate);
+
+                infoRepository.save(updateDetail);
+
+                getUserAccount.ifPresent(updateTotal -> {
+                    updateTotal.setTotal(total - money);
+
+                    userAccountRepository.save(updateTotal);
+                });
+
+//                spendingUpdate(infoDTO);
             }
 
-            infoRepository.save(updateDetail);
+//            infoRepository.save(updateDetail);
         });
     }
 

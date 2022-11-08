@@ -17,6 +17,4 @@ public class InfoDTO {
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     LocalDate localDate;
-
-//    String localMonth = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 }

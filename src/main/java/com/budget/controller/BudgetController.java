@@ -62,8 +62,6 @@ public class BudgetController {
                 new UserPk(userAccountDTO.getUserPk()), userAccountDTO.getAccount());
 
         getUserAccount.ifPresent(updateTotal ->{
-            updateTotal.setUserPk(new UserPk(userAccountDTO.getUserPk()));
-            updateTotal.setAccount(userAccountDTO.getAccount());
             updateTotal.setTotal(userAccountDTO.getTotal());
 
             userAccountRepository.save(updateTotal);

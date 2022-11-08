@@ -31,7 +31,7 @@ public class Info {
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "LOCALDATETIME")
-    private LocalDateTime localDateTime = LocalDateTime.now();
+    private LocalDateTime localDateTime;
 
     //@NotNull
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
