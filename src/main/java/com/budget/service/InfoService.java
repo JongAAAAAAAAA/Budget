@@ -92,7 +92,7 @@ public class InfoService {
     public void detailUpdate(InfoDTO infoDTO) {
         Optional<Info> getId = infoRepository.findById(infoDTO.getId());
 
-        String userPk = infoDTO.getUserPk();
+        UserPk userPk = getId.get().getUserPk();
         String account = infoDTO.getAccount();
         Integer money = infoDTO.getMoney();
         LocalDateTime localDateTime = infoDTO.getLocalDateTime();
@@ -101,43 +101,52 @@ public class InfoService {
 
         getId.ifPresent(updateDetail -> {
             if (getId.get().getIncome() != null) { // 수입인 경우의 update
-                Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+                Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(userPk, account);
 
                 final Integer total = getUserAccount.get().getTotal();
+                System.out.println("total = " + total);
 
                 getUserAccount.ifPresent(updateTotal -> {
                     updateTotal.setTotal(total - getId.get().getIncome());
 
                     userAccountRepository.save(updateTotal);
+
+                    System.out.println("updateTotal = " + updateTotal.getTotal());
                 });
+
+                final Integer updatedTotal = getUserAccount.get().getTotal();
 
                 updateDetail.setAccount(getUserAccount.get().getAccount());
                 updateDetail.setContent(content);
                 updateDetail.setIncome(money);
+                System.out.println("money = " + money);
                 updateDetail.setLocalDateTime(localDateTime);
                 updateDetail.setLocalDate(localDate);
 
                 infoRepository.save(updateDetail);
 
                 getUserAccount.ifPresent(updateTotal -> {
-                    updateTotal.setTotal(total + money);
+                    updateTotal.setTotal(updatedTotal + money);
 
                     userAccountRepository.save(updateTotal);
+                    System.out.println("updateTotal = " + updateTotal.getTotal());
                 });
             //하나의 로우를 바꿔버려야함. 거기서 바뀌는 income spending의 변화에 따른 total이 업데이트 돼야하고
                 // 이걸 incomeupdate를 쓰면서 야무지게 할 수 있는 방법이 없을까 고민해야함.
 
 //                incomeUpdate(infoDTO);
             } else { // 지출인 경우의 update
-                Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(new UserPk(userPk), account);
+                Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(userPk, account);
 
                 final Integer total = getUserAccount.get().getTotal();
 
                 getUserAccount.ifPresent(updateTotal -> {
-                    updateTotal.setTotal(total + getId.get().getIncome());
+                    updateTotal.setTotal(total + getId.get().getSpending());
 
                     userAccountRepository.save(updateTotal);
                 });
+
+                final Integer updatedTotal = getUserAccount.get().getTotal();
 
                 updateDetail.setAccount(getUserAccount.get().getAccount());
                 updateDetail.setContent(content);
@@ -148,7 +157,7 @@ public class InfoService {
                 infoRepository.save(updateDetail);
 
                 getUserAccount.ifPresent(updateTotal -> {
-                    updateTotal.setTotal(total - money);
+                    updateTotal.setTotal(updatedTotal - money);
 
                     userAccountRepository.save(updateTotal);
                 });
@@ -198,9 +207,32 @@ public class InfoService {
     public void detailDelete(InfoDTO infoDTO){
         Optional<Info> getId = infoRepository.findById(infoDTO.getId());
 
-        getId.ifPresent(deleteDetail ->{
-            infoRepository.delete(getId.get());
-        });
+        String account = getId.get().getAccount();
+        UserPk userPk = getId.get().getUserPk();
+
+        Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(userPk, account);
+
+        final Integer total = getUserAccount.get().getTotal();
+
+        if (getId.get().getIncome() != null){ // 수입인 경우의 delete
+            Integer income = getId.get().getIncome();
+
+            getUserAccount.ifPresent(updateTotal -> {
+                updateTotal.setTotal(total - income);
+
+                userAccountRepository.save(updateTotal);
+            });
+        } else { // 지출인 경우의 delete
+            Integer spending = getId.get().getSpending();
+
+            getUserAccount.ifPresent(updateTotal -> {
+                updateTotal.setTotal(total + spending);
+
+                userAccountRepository.save(updateTotal);
+            });
+        }
+
+        infoRepository.delete(getId.get());
     }
 
 //    public void detailDelete(InfoDTO infoDTO){

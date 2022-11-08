@@ -26,6 +26,7 @@ public class UserAccountService { // Account 중복 및 User 검사
             if (userAccountRepository.findByUserPkAndAccount(new UserPk(getUserPk), account).isEmpty()){ // 유저의 동일 계좌 등록 방지
                 userAccount.setUserPk(new UserPk(getUserPk));
                 userAccount.setAccount(account);
+                userAccount.setTotal(0);
 
                 userAccountRepository.save(userAccount);
             }

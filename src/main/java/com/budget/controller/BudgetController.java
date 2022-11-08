@@ -208,10 +208,29 @@ public class BudgetController {
     @ResponseBody
     @PostMapping("/delete/detail") // 내역 삭제 , 내역 삭제시에 spending 삭제인 지 income 삭제인 지 구분돼야함
     void deleteDetail(@RequestBody InfoDTO infoDTO){
-        log.info("user {} 의 내역 삭제", infoDTO.getUserPk());
+        log.info("id {} 의 내역 삭제", infoDTO.getId());
 
-        Optional<Info> getId = infoRepository.findById(infoDTO.getId());
-
-        infoRepository.delete(getId.get());
+        infoService.detailDelete(infoDTO);
     }
+
+    @ResponseBody
+    @PostMapping("/delete/account") // 특정 계좌 삭제
+    void deleteAccount(@RequestBody UserAccountDTO userAccountDTO){
+        log.info("user {} 의 계좌 {} 삭제", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
+
+        Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(
+                new UserPk(userAccountDTO.getUserPk()), userAccountDTO.getAccount());
+
+        Optional<List<Info>> getInfo = infoRepository.findByUserPkAndAccount(
+                new UserPk(userAccountDTO.getUserPk()), userAccountDTO.getAccount());
+
+        userAccountRepository.delete(getUserAccount.get());
+
+        for (int i=0; i<getInfo.get().size(); i++){
+            infoRepository.delete(getInfo.get().get(i));
+        }
+    }
+
+    //로그아웃? 웹에서 ㅇㅇ
+
 }
