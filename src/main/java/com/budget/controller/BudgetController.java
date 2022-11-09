@@ -7,6 +7,7 @@ import com.budget.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,11 @@ public class BudgetController {
     @GetMapping
     String index(){
         return "index";
+    }
+
+    @GetMapping("login.html")
+    String login() {
+        return "login";
     }
 
     @ResponseBody
@@ -100,7 +106,7 @@ public class BudgetController {
 
     @ResponseBody
     @PostMapping("/search/total/all") // 총 예산 조회
-    int totalSearch(@RequestBody InfoDTO infoDTO){
+    int totalSearch(@RequestBody InfoDTO infoDTO, Model model){
         log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
 
         Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(infoDTO.getUserPk()));
@@ -110,6 +116,8 @@ public class BudgetController {
         for(int i=0; i<totalByUserPk.get().size(); i++){
             total += totalByUserPk.get().get(i).getTotal();
         }
+
+        model.addAttribute("totalAll", total);
 
         return total;
     }
@@ -231,6 +239,6 @@ public class BudgetController {
         }
     }
 
-    //로그아웃? 웹에서 ㅇㅇ
+    //로그아웃? 웹에서 ㅇㅇ , 전체 계좌 조회 및 특정계좌 조회?
 
 }
