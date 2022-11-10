@@ -106,7 +106,7 @@ public class BudgetController {
 
     @ResponseBody
     @PostMapping("/search/total/all") // 총 예산 조회
-    int totalSearch(@RequestBody InfoDTO infoDTO, Model model){
+    String totalSearch(@RequestBody InfoDTO infoDTO, Model model){
         log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
 
         Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(infoDTO.getUserPk()));
@@ -119,7 +119,7 @@ public class BudgetController {
 
         model.addAttribute("totalAll", total);
 
-        return total;
+        return "index";
     }
 
     @ResponseBody
