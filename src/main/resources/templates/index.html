@@ -32,9 +32,9 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="http://localhost:8080">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-fw fa-wallet"></i>
                 </div>
                 <div class="sidebar-brand-text mx-2">Budget For U</div>
             </a>
@@ -44,8 +44,8 @@
 
             <!-- Nav Item - Home -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                <a class="nav-link" href="http://localhost:8080">
+                    <i class="fas fa-fw fa-home"></i>
                     <span>Home</span></a>
             </li>
 
@@ -97,28 +97,21 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
+                Accounts
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Add Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-plus"></i>
+                    <span>추가</span></a>
+            </li>
+
+            <!-- Nav Item - Delete Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-minus"></i>
+                    <span>삭제</span></a>
             </li>
 
             <!-- Divider -->
@@ -129,7 +122,7 @@
                 Contact
             </div>
 
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - Developer -->
             <li class="nav-item">
                 <a class="nav-link" href="contact.html">
                     <i class="fas fa-fw fa-wrench"></i>
@@ -153,14 +146,19 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="margin-top: 20px">
+                        <h1 class="h3 mb-0 text-gray-600" style="margin-left: 10px">Asset Managing Project</h1>
+                    </div>
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="login.html" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nickname">로그인이 필요합니다.</span>
                                 <img class="img-profile rounded-circle" id="image" src="img/undraw_profile.svg">
@@ -193,12 +191,13 @@
                 </nav>
                 <!-- End of Topbar -->
 
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Jay's Project</h1>
+                        <h1 class="h3 mb-0 text-gray-800">DashBoard</h1>
                     </div>
 
                     <!-- Content Row -->

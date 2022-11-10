@@ -206,7 +206,7 @@ public class BudgetController {
 //    }
 
     @ResponseBody
-    @PostMapping("/update/detail") // 내역 수정 , 다시 짰음
+    @PostMapping("/update/detail") // 내역 수정
     void updateDetail(@RequestBody InfoDTO infoDTO){
         log.info("id {} 의 내역 수정", infoDTO.getId());
 
@@ -214,7 +214,7 @@ public class BudgetController {
     }
 
     @ResponseBody
-    @PostMapping("/delete/detail") // 내역 삭제 , 내역 삭제시에 spending 삭제인 지 income 삭제인 지 구분돼야함
+    @PostMapping("/delete/detail") // 내역 삭제
     void deleteDetail(@RequestBody InfoDTO infoDTO){
         log.info("id {} 의 내역 삭제", infoDTO.getId());
 
