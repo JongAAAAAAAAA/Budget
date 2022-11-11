@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -119,9 +121,12 @@ public class BudgetController {
 //        return "index";
 //    }
 
+    @ResponseBody
     @PostMapping("/search/total/all") // 총 예산 조회
-    String totalSearch(InfoDTO infoDTO, Model model){
+    Map totalSearch(InfoDTO infoDTO){
         log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
+
+        HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
         Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(infoDTO.getUserPk()));
 
@@ -133,11 +138,9 @@ public class BudgetController {
 
         log.info("total:{}", total);
 
-        String s = total.toString();
+        stringIntegerHashMap.put("totalAll", total);
 
-        model.addAttribute("totalAll", s);
-
-        return "index";
+        return stringIntegerHashMap;
     }
 
 //    @ResponseBody
@@ -214,8 +217,10 @@ public class BudgetController {
 
     @ResponseBody
     @PostMapping("/search/spending/all") // 총 지출 조회
-    String allSpendingSearch(InfoDTO infoDTO, Model model){
+    Map allSpendingSearch(InfoDTO infoDTO){
         log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
+
+        HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
         Optional<List<Info>> userPk = infoRepository.findByUserPkAndIncome(new UserPk(infoDTO.getUserPk()), null);
 
@@ -227,9 +232,9 @@ public class BudgetController {
 
         log.info("spending:{}", spending);
 
-        model.addAttribute("spendingAll", spending);
+        stringIntegerHashMap.put("spendingAll", spending);
 
-        return "index";
+        return stringIntegerHashMap;
     }
 
     @ResponseBody
