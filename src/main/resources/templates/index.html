@@ -2,6 +2,7 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <head>
 
@@ -211,25 +212,11 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 남은 예산</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₩
-<!--                                                <form th:action="@{/search/total/all}" th:object="${infoDTO}" method="post">-->
-<!--&lt;!&ndash;                                                    <input type="hidden" id="userPk" name="userPk" value=""/>&ndash;&gt;-->
-<!--                                                    <input type="hidden" name="userPk" th:field="*{userPk}" value="2518094859"/>-->
-<!--                                                </form>-->
-<!--                                                <form action="/search/total/all" method='get'>-->
-<!--                                                    &lt;!&ndash;                                                    <input type="hidden" id="userPk" name="userPk" value=""/>&ndash;&gt;-->
-<!--                                                    <input type="hidden" id="userPk" name="userPk" value=""/>-->
-<!--                                                </form>-->
-                                                <span th:text="${totalAll}"></span>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₩ <span th:text="${totalAll}"></span>
                                             </div>
-<!--                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₩ <span th:text="${totalAll}">-->
-<!--                                                <form action='/search/total/all' method='post'>-->
-<!--                                                    <input type="hidden" th:value="2518094859"/>-->
-<!--                                                </form>-->
-<!--                                            </span></div>-->
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -244,12 +231,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 사용 금액</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₩ </div>
-<!--                                            <form th:action="@{/search/spending/all}" th:object="${infoDTO}" method="post">-->
-<!--                                                &lt;!&ndash;                                                    <input type="hidden" id="userPk" name="userPk" value=""/>&ndash;&gt;-->
-<!--                                                <input type="hidden" name="userPk" th:field="*{userPk}" value="2518094859"/>-->
-<!--                                            </form>-->
-                                            <span th:text="${spendingAll}"></span>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₩ <span th:text="${spendingAll}"></span>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -541,18 +524,19 @@
             Kakao.Auth.setAccessToken(undefined)
         }
     }
+    var idd;
     function getInfo() {
         Kakao.API.request({
             url: '/v2/user/me',
             success: function (res) {
                 // 닉네임, 프로필이미지
                 var id = res.id;
+                // idd = res.id;
                 // var nickname = res.properties.nickname;
                 document.getElementById("nickname").innerHTML = res.properties.nickname;
                 // var picture = res.properties.profile_image;
                 document.getElementById("image").src = res.properties.profile_image;
 
-                document.getElementById("userPk").innerHTML = id;
                 // document.getElementById("userPk").value = String(id);
                 // document.getElementById("nickname").innerHTML = nickname;
                 // document.getElementById("image").src = picture;
@@ -561,8 +545,38 @@
                 console.log(nickname);
                 console.log(res);
                 console.log(res.propertis);
+
+                console.log("시이자악!");
+                $.ajax({
+                    url: "http://localhost:8080/search/total/all", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                    data: { userPk: res.id }, // HTTP 요청과 함께 서버로 보낼 데이터
+                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+                    dataType: "json" // 서버에서 보내줄 데이터의 타입
+                })
+
+                    // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                    .fail(function(xhr, status, errorThrown) {
+                        $("#text").html("오류가 발생했다.<br>")
+                            .append("오류명: " + errorThrown + "<br>")
+                            .append("상태: " + status);
+                    });
+                $.ajax({
+                    url: "http://localhost:8080/search/spending/all", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                    data: { userPk: res.id }, // HTTP 요청과 함께 서버로 보낼 데이터
+                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+                    dataType: "json" // 서버에서 보내줄 데이터의 타입
+                })
+
+                    // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                    .fail(function(xhr, status, errorThrown) {
+                        $("#text").html("오류가 발생했다.<br>")
+                            .append("오류명: " + errorThrown + "<br>")
+                            .append("상태: " + status);
+                    });
             }
         });
+
     }
     window.onload = getInfo();
+
 </script>

@@ -119,9 +119,8 @@ public class BudgetController {
 //        return "index";
 //    }
 
-    @ResponseBody
     @PostMapping("/search/total/all") // 총 예산 조회
-    String totalSearch(@RequestBody InfoDTO infoDTO, Model model){
+    String totalSearch(InfoDTO infoDTO, Model model){
         log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
 
         Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(infoDTO.getUserPk()));
@@ -132,7 +131,11 @@ public class BudgetController {
             total += totalByUserPk.get().get(i).getTotal();
         }
 
-        model.addAttribute("totalAll", total);
+        log.info("total:{}", total);
+
+        String s = total.toString();
+
+        model.addAttribute("totalAll", s);
 
         return "index";
     }
@@ -211,7 +214,7 @@ public class BudgetController {
 
     @ResponseBody
     @PostMapping("/search/spending/all") // 총 지출 조회
-    String allSpendingSearch(@RequestBody InfoDTO infoDTO, Model model){
+    String allSpendingSearch(InfoDTO infoDTO, Model model){
         log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
 
         Optional<List<Info>> userPk = infoRepository.findByUserPkAndIncome(new UserPk(infoDTO.getUserPk()), null);
@@ -221,6 +224,8 @@ public class BudgetController {
         for (int i=0; i<userPk.get().size(); i++){
             spending += userPk.get().get(i).getSpending();
         }
+
+        log.info("spending:{}", spending);
 
         model.addAttribute("spendingAll", spending);
 
