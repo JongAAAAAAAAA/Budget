@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -104,6 +101,24 @@ public class BudgetController {
         return total;
     }
 
+//    @ResponseBody
+//    @GetMapping("/search/total/all") // 총 예산 조회
+//    String totalSearch(@RequestParam(value = "userPk", required = false)  String userPk, Model model){
+////        log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
+//
+//        Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(userPk));
+//
+//        Integer total = 0;
+//
+//        for(int i=0; i<totalByUserPk.get().size(); i++){
+//            total += totalByUserPk.get().get(i).getTotal();
+//        }
+//
+//        model.addAttribute("totalAll", total);
+//
+//        return "index";
+//    }
+
     @ResponseBody
     @PostMapping("/search/total/all") // 총 예산 조회
     String totalSearch(@RequestBody InfoDTO infoDTO, Model model){
@@ -121,6 +136,38 @@ public class BudgetController {
 
         return "index";
     }
+
+//    @ResponseBody
+//    @PostMapping("/search/total/all") // 총 예산 조회
+//    String totalSearch(@RequestBody InfoDTO infoDTO, Model model){
+//        log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
+//
+//        Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(infoDTO.getUserPk()));
+//
+//        Integer total = 0;
+//
+//        for(int i=0; i<totalByUserPk.get().size(); i++){
+//            total += totalByUserPk.get().get(i).getTotal();
+//        }
+//
+//        model.addAttribute("totalAll", total);
+//
+//        return "index";
+//
+//        int allSpendingSearch(@RequestBody InfoDTO infoDTO){
+//            log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
+//
+//            Optional<List<Info>> userPk = infoRepository.findByUserPkAndIncome(new UserPk(infoDTO.getUserPk()), null);
+//
+//            Integer spending = 0;
+//
+//            for (int i=0; i<userPk.get().size(); i++){
+//                spending += userPk.get().get(i).getSpending();
+//            }
+//
+//            return spending;
+//        }
+//    }
 
     @ResponseBody
     @PostMapping("/search/spending/day") // 하루 지출 조회
@@ -164,7 +211,7 @@ public class BudgetController {
 
     @ResponseBody
     @PostMapping("/search/spending/all") // 총 지출 조회
-    int allSpendingSearch(@RequestBody InfoDTO infoDTO){
+    String allSpendingSearch(@RequestBody InfoDTO infoDTO, Model model){
         log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
 
         Optional<List<Info>> userPk = infoRepository.findByUserPkAndIncome(new UserPk(infoDTO.getUserPk()), null);
@@ -175,7 +222,9 @@ public class BudgetController {
             spending += userPk.get().get(i).getSpending();
         }
 
-        return spending;
+        model.addAttribute("spendingAll", spending);
+
+        return "index";
     }
 
     @ResponseBody

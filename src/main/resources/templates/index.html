@@ -158,7 +158,7 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="login.html" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nickname">로그인이 필요합니다.</span>
                                 <img class="img-profile rounded-circle" id="image" src="img/undraw_profile.svg">
@@ -211,9 +211,22 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 남은 예산</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span th:text="${totalAll}">
-                                                <input type="hidden" th:value="userPk"/>
-                                            </span></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₩
+<!--                                                <form th:action="@{/search/total/all}" th:object="${infoDTO}" method="post">-->
+<!--&lt;!&ndash;                                                    <input type="hidden" id="userPk" name="userPk" value=""/>&ndash;&gt;-->
+<!--                                                    <input type="hidden" name="userPk" th:field="*{userPk}" value="2518094859"/>-->
+<!--                                                </form>-->
+<!--                                                <form action="/search/total/all" method='get'>-->
+<!--                                                    &lt;!&ndash;                                                    <input type="hidden" id="userPk" name="userPk" value=""/>&ndash;&gt;-->
+<!--                                                    <input type="hidden" id="userPk" name="userPk" value=""/>-->
+<!--                                                </form>-->
+                                                <span th:text="${totalAll}"></span>
+                                            </div>
+<!--                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₩ <span th:text="${totalAll}">-->
+<!--                                                <form action='/search/total/all' method='post'>-->
+<!--                                                    <input type="hidden" th:value="2518094859"/>-->
+<!--                                                </form>-->
+<!--                                            </span></div>-->
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -231,7 +244,12 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 사용 금액</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">₩ </div>
+<!--                                            <form th:action="@{/search/spending/all}" th:object="${infoDTO}" method="post">-->
+<!--                                                &lt;!&ndash;                                                    <input type="hidden" id="userPk" name="userPk" value=""/>&ndash;&gt;-->
+<!--                                                <input type="hidden" name="userPk" th:field="*{userPk}" value="2518094859"/>-->
+<!--                                            </form>-->
+                                            <span th:text="${spendingAll}"></span>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -526,9 +544,6 @@
     function getInfo() {
         Kakao.API.request({
             url: '/v2/user/me',
-            // data: {
-            //     property_keys: ['kakao_profile_nickname', 'kakao_profile_image'],
-            // },
             success: function (res) {
                 // 닉네임, 프로필이미지
                 var id = res.id;
@@ -538,6 +553,7 @@
                 document.getElementById("image").src = res.properties.profile_image;
 
                 document.getElementById("userPk").innerHTML = id;
+                // document.getElementById("userPk").value = String(id);
                 // document.getElementById("nickname").innerHTML = nickname;
                 // document.getElementById("image").src = picture;
 
