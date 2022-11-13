@@ -5,7 +5,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 <script>
@@ -146,19 +145,94 @@
                 Accounts
             </div>
 
-            <!-- Nav Item - Add Menu -->
+            <!-- Nav Item - Account Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-plus"></i>
-                    <span>추가</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccount"
+                   aria-expanded="true" aria-controls="collapseAccount">
+                    <i class="fas fa-fw fa-list-ul"></i>
+                    <span>계좌 목록</span>
+                </a>
+                <div id="collapseAccount" class="collapse" aria-labelledby="headingAccount" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">목록</h6>
+                        <a class="collapse-item" href="#">
+                            <i class="fas fa-fw fa-circle"></i>
+                            <span>계좌 1</span></a>
+                    </div>
+                </div>
             </li>
 
-            <!-- Nav Item - Delete Menu -->
+            <!-- Nav Item - Account Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-minus"></i>
-                    <span>삭제</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccountSetting"
+                   aria-expanded="true" aria-controls="collapseAccountSetting">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>계좌 관리</span>
+                </a>
+                <div id="collapseAccountSetting" class="collapse" aria-labelledby="headingAccountSetting" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">추가 / 삭제</h6>
+
+                            <a class="collapse-item" href="#" id="alertsDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-plus"></i>
+                                <span>  추가</span>
+                            </a>
+
+
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    계좌 추가
+                                </h6>
+                                <div class="dropdown-item d-flex align-items-center">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-fw fa-plus"></i>
+                                        </div>
+                                    </div>
+<!--                                    <div>-->
+<!--                                        <div class="small text-gray-500">계좌 이름(별명)을 입력해주세요.</div>-->
+<!--                                    </div>-->
+<!--                                    <br>-->
+                                    <div>
+
+                                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control bg-light border-0 small" placeholder="계좌 이름(별명)을 입력해주세요."
+                                                       aria-label="Search" aria-describedby="basic-addon2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary" type="button">
+                                                        <i class="fas fa-search fa-sm"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        <a class="collapse-item" href="#">
+                            <i class="fas fa-fw fa-minus"></i>
+                            <span>  삭제</span></a>
+                    </div>
+                </div>
             </li>
+
+<!--            &lt;!&ndash; Nav Item - Add Menu &ndash;&gt;-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">-->
+<!--                    <i class="fas fa-fw fa-plus"></i>-->
+<!--                    <span>추가</span></a>-->
+<!--            </li>-->
+
+<!--            &lt;!&ndash; Nav Item - Delete Menu &ndash;&gt;-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">-->
+<!--                    <i class="fas fa-fw fa-minus"></i>-->
+<!--                    <span>삭제</span></a>-->
+<!--            </li>-->
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -363,7 +437,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Contents</h6>
                                 </div>
                                 <div class="card-body">
-                                    <input type="text" id="datePicker" class="form-control" value="2022-11-12" />
+                                    <input type="text" id="datePicker111" class="form-control" value="2022-11-12" />
                                 </div>
 
                             </div>
@@ -440,7 +514,7 @@
                 url: '/v1/user/unlink',
                 success: function (response) {
                     console.log(response)
-                    location.href = 'http://localhost:8080/'
+                    location.href = 'http://localhost:8080/login.html'
                 },
                 fail: function (error) {
                     console.log(error)
@@ -449,7 +523,6 @@
             Kakao.Auth.setAccessToken(undefined)
         }
     }
-    var idd;
     function getInfo() {
         Kakao.API.request({
             url: '/v2/user/me',

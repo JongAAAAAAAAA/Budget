@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <head>
 
@@ -89,17 +90,6 @@
 
 
     </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
 </body>
 
 </html>
@@ -118,6 +108,14 @@
                     success: function (response) {
                         location.href = 'http://localhost:8080/'
                         console.log(response)
+
+                        $.ajax({
+                            url: "http://localhost:8080/register/user", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                            data: { userPk: response.id }, // HTTP 요청과 함께 서버로 보낼 데이터
+                            method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+                            dataType: "json" // 서버에서 보내줄 데이터의 타입
+                        })
+                        console.log(response.id)
                     },
                     fail: function (error) {
                         console.log(error)
@@ -129,19 +127,21 @@
             },
         })
     }
-    function getInfo() {
-        Kakao.API.request({
-            url: '/v2/user/me',
-            success: function (res) {
-                // 닉네임, 프로필이미지
-                var id = res.id;
-                document.getElementById("userPk").innerHTML = id;
-                var nickname = res.properties.nickname;
-                document.getElementById("nickname").innerHTML = nickname;
-                var picture = res.properties.profile_image;
-                document.getElementById("image").src = picture;
-                console.log(id);
-            }
-        });
-    }
+    // function getInfo() {
+    //     Kakao.API.request({
+    //         url: '/v2/user/me',
+    //         success: function (res) {
+    //             // 닉네임, 프로필이미지
+    //             console.log(res.id);
+    //
+    //             $.ajax({
+    //                 url: "http://localhost:8080/register/user", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+    //                 data: { userPk: res.id }, // HTTP 요청과 함께 서버로 보낼 데이터
+    //                 method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+    //                 dataType: "json" // 서버에서 보내줄 데이터의 타입
+    //             })
+    //         }
+    //     });
+    // }
+    // window.onload = getInfo();
 </script>

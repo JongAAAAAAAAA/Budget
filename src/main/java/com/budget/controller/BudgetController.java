@@ -39,7 +39,7 @@ public class BudgetController {
 
     @ResponseBody
     @PostMapping("/register/user") // 유저 등록
-    void userRegister(@RequestBody UserDTO userDTO){
+    void userRegister(UserDTO userDTO){
         log.info("user 등록 : {}", userDTO.getUserPk());
 
         UserPk userPK = new UserPk();
