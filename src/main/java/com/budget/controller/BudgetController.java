@@ -55,9 +55,8 @@ public class BudgetController {
         return "redirect:/";
     }
 
-    @ResponseBody
     @PostMapping("/search/useraccount") // 유저가 가진 계좌 목록 조회
-    List<String> userAccountSearch(UserAccountDTO userAccountDTO, Model model){
+    String userAccountSearch(UserAccountDTO userAccountDTO, Model model){
         log.info("user {} 의 보유 계좌 목록 조회", userAccountDTO.getUserPk());
 
         Optional<List<UserAccount>> userPk = userAccountRepository.findByUserPk(new UserPk(userAccountDTO.getUserPk()));
@@ -73,7 +72,7 @@ public class BudgetController {
         model.addAttribute("accountList", account);
 //        model.addAttribute("accountSize", account.size());
 
-        return account;
+        return "index";
     }
 
     @ResponseBody
