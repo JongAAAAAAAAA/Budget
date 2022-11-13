@@ -187,10 +187,12 @@
                                 </h6>
                                 <div class="dropdown-item d-flex align-items-center">
                                     <div>
-                                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="width: 300px">
+                                        <form method="post" action="/register/useraccount" style="width: 300px"
+                                              class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                                             <div class="input-group">
                                                 <input type="text" class="form-control bg-light border-0 small" placeholder="계좌 이름(별명)을 입력해주세요."
-                                                       aria-label="Search" aria-describedby="basic-addon2">
+                                                       aria-label="Search" aria-describedby="basic-addon2" name="account">
+                                                <input type="hidden" name="userPk"> 이거 매핑 제대로 해야함
                                                 <div class="input-group-append">
                                                     <button class="btn btn-primary" type="button">
                                                         <span>등록</span>
