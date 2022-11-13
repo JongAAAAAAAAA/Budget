@@ -155,6 +155,12 @@
                 <div id="collapseAccount" class="collapse" aria-labelledby="headingAccount" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">목록</h6>
+                        <div th:each="i : ${accountList}">
+                            <a class="collapse-item" href="#">
+                                <i class="fas fa-fw fa-circle"></i>
+                                <li th:text="${i}">gd</li>
+                            </a>
+                        </div>
                         <a class="collapse-item" href="#">
                             <i class="fas fa-fw fa-circle"></i>
                             <span>계좌 1</span></a>
@@ -192,9 +198,9 @@
                                             <div class="input-group">
                                                 <input type="text" class="form-control bg-light border-0 small" placeholder="계좌 이름(별명)을 입력해주세요."
                                                        aria-label="Search" aria-describedby="basic-addon2" name="account">
-                                                <input type="hidden" name="userPk"> 이거 매핑 제대로 해야함
+                                                <input type="hidden" name="userPk" value="">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-primary" type="button">
+                                                    <button onclick="btnRegister()" class="btn btn-primary" type="submit">
                                                         <span>등록</span>
                                                     </button>
                                                 </div>
@@ -523,9 +529,11 @@
                 var id = res.id;
                 // idd = res.id;
                 // var nickname = res.properties.nickname;
+                document.getElementsByName("userPk")[0].value = res.id;
                 document.getElementById("nickname").innerHTML = res.properties.nickname;
                 // var picture = res.properties.profile_image;
                 document.getElementById("image").src = res.properties.profile_image;
+
 
                 // document.getElementById("userPk").value = String(id);
                 // document.getElementById("nickname").innerHTML = nickname;
@@ -574,10 +582,32 @@
                             .append("오류명: " + errorThrown + "<br>")
                             .append("상태: " + status);
                     });
+                $.ajax({
+                    url: "http://localhost:8080/search/useraccount", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                    data: { userPk: res.id }, // HTTP 요청과 함께 서버로 보낼 데이터
+                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+                    dataType: "json" // 서버에서 보내줄 데이터의 타입
+                })
+                    // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+                    .done(function(json) {
+                        console.log(json.spendingAll);
+                        document.getElementById("spendingAll").innerHTML = json.spendingAll;
+                    })
+
+                    // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                    .fail(function(xhr, status, errorThrown) {
+                        $("#text").html("오류가 발생했다.<br>")
+                            .append("오류명: " + errorThrown + "<br>")
+                            .append("상태: " + status);
+                    });
             }
         });
 
     }
     window.onload = getInfo();
+
+    function btnRegister(){
+        alert('등록에 성공했습니다.');
+    }
 
 </script>

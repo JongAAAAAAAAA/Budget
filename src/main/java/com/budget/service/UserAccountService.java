@@ -29,6 +29,7 @@ public class UserAccountService { // Account 중복 및 User 검사
                 userAccount.setTotal(0);
 
                 userAccountRepository.save(userAccount);
+                log.info("등록에 성공했습니다.");
             }
             else {
                 log.info("이미 등록된 계좌입니다.");

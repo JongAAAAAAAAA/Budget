@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,12 +46,34 @@ public class BudgetController {
         userPkRepository.save(userPK);
     }
 
-    @ResponseBody
     @PostMapping("/register/useraccount") // 유저의 계좌 등록
-    void userAccountRegister(@RequestBody UserAccountDTO userAccountDTO){
-        log.info("user {} 의, 계좌 등록 : {}", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
+    String userAccountRegister(UserAccountDTO userAccountDTO){
+        log.info("user {} 의 계좌 등록 : {}", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
 
         userAccountService.userAccountRegister(userAccountDTO);
+
+        return "redirect:/";
+    }
+
+    @ResponseBody
+    @PostMapping("/search/useraccount") // 유저가 가진 계좌 목록 조회
+    List<String> userAccountSearch(UserAccountDTO userAccountDTO, Model model){
+        log.info("user {} 의 보유 계좌 목록 조회", userAccountDTO.getUserPk());
+
+        Optional<List<UserAccount>> userPk = userAccountRepository.findByUserPk(new UserPk(userAccountDTO.getUserPk()));
+
+        List<String> account = new ArrayList<>();
+
+        for (int i=0; i<userPk.get().size(); i++){
+            account.add(userPk.get().get(i).getAccount());
+        }
+
+//        account.iterator().forEachRemaining(a->log.info("{}",a));
+
+        model.addAttribute("accountList", account);
+//        model.addAttribute("accountSize", account.size());
+
+        return account;
     }
 
     @ResponseBody
