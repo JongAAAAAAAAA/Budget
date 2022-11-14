@@ -33,6 +33,11 @@ public class BudgetController {
         return "login";
     }
 
+    @GetMapping("buttons.html")
+    String buttons() {
+        return "buttons";
+    }
+
     @ResponseBody
     @PostMapping("/register/user") // 유저 등록
     void userRegister(UserDTO userDTO){
