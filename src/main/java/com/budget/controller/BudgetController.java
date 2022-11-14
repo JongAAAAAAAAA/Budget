@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -55,9 +54,12 @@ public class BudgetController {
         return "redirect:/";
     }
 
+    @ResponseBody
     @PostMapping("/search/useraccount") // 유저가 가진 계좌 목록 조회
-    String userAccountSearch(UserAccountDTO userAccountDTO, Model model){
+    Map userAccountSearch(UserAccountDTO userAccountDTO){
         log.info("user {} 의 보유 계좌 목록 조회", userAccountDTO.getUserPk());
+
+        HashMap<String, List<String>> stringIntegerHashMap = new HashMap<>();
 
         Optional<List<UserAccount>> userPk = userAccountRepository.findByUserPk(new UserPk(userAccountDTO.getUserPk()));
 
@@ -67,12 +69,13 @@ public class BudgetController {
             account.add(userPk.get().get(i).getAccount());
         }
 
+        stringIntegerHashMap.put("userAccountAll", account);
+
 //        account.iterator().forEachRemaining(a->log.info("{}",a));
 
-        model.addAttribute("accountList", account);
-//        model.addAttribute("accountSize", account.size());
+//        model.addAttribute("accountList", 1111);
 
-        return "index";
+        return stringIntegerHashMap;
     }
 
     @ResponseBody

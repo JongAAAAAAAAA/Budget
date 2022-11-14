@@ -99,49 +99,6 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
                 Accounts
             </div>
 
@@ -155,16 +112,12 @@
                 <div id="collapseAccount" class="collapse" aria-labelledby="headingAccount" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">목록</h6>
-                        <div th:each="i : ${accountList}">
-                            <a class="collapse-item" href="#">
-                                <i class="fas fa-fw fa-circle"></i>
-                                <span th:text="${i}">나와라</span>
-                            </a>
-                        </div>
-                        <a class="collapse-item" href="#">
-                            <i class="fas fa-fw fa-circle"></i>
-                            <span>계좌 1</span>
-                        </a>
+
+                        <div id="loop"></div>
+                        <!--                        <a class="collapse-item" href="#">-->
+                        <!--                            <i class="fas fa-fw fa-circle"></i>-->
+                        <!--                            <span name="userAccountAll"></span>-->
+                        <!--                        </a>-->
                     </div>
                 </div>
             </li>
@@ -180,41 +133,101 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">추가 / 삭제</h6>
 
-                            <a class="collapse-item" href="#" id="alertsDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-fw fa-plus"></i>
-                                <span>  추가</span>
-                            </a>
+                        <a class="collapse-item" href="#" id="addDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-fw fa-plus"></i>
+                            <span>추가</span>
+                        </a>
 
-
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    계좌 추가
-                                </h6>
-                                <div class="dropdown-item d-flex align-items-center">
-                                    <div>
-                                        <form method="post" action="/register/useraccount" style="width: 300px"
-                                              class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control bg-light border-0 small" placeholder="계좌 이름(별명)을 입력해주세요."
-                                                       aria-label="Search" aria-describedby="basic-addon2" name="account">
-                                                <input type="hidden" name="userPk" value="">
-                                                <div class="input-group-append">
-                                                    <button onclick="btnRegister()" class="btn btn-primary" type="submit">
-                                                        <span>등록</span>
-                                                    </button>
-                                                </div>
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="addDropdown">
+                            <h6 class="dropdown-header">
+                                계좌 추가
+                            </h6>
+                            <div class="dropdown-item d-flex align-items-center">
+                                <div>
+                                    <form method="post" action="/register/useraccount" style="width: 300px"
+                                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control bg-light border-0 small" placeholder="계좌 이름(별명)을 입력해주세요."
+                                                   aria-label="Search" aria-describedby="basic-addon2" name="account">
+                                            <input type="hidden" name="userPk" value="">
+                                            <div class="input-group-append">
+                                                <button onclick="btnRegister()" class="btn btn-primary" type="submit">
+                                                    <span>등록</span>
+                                                </button>
                                             </div>
-                                        </form>
+                                        </div>
+                                    </form>
 
-                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                        <a class="collapse-item" href="#">
+                        <a class="collapse-item" href="#" id="deleteDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-fw fa-minus"></i>
-                            <span>  삭제</span></a>
+                            <span>삭제</span>
+                        </a>
+
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="deleteDropdown">
+                            <h6 class="dropdown-header">
+                                계좌 삭제
+                            </h6>
+                            <div class="dropdown-item d-flex align-items-center">
+                                <div>
+                                    <form method="post" action="/delete/account" style="width: 300px"
+                                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                        <div id="loop1"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Interface
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Components</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Components:</h6>
+                        <a class="collapse-item" href="buttons.html">Buttons</a>
+                        <a class="collapse-item" href="cards.html">Cards</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Utilities</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <a class="collapse-item" href="utilities-color.html">Colors</a>
+                        <a class="collapse-item" href="utilities-border.html">Borders</a>
+                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                        <a class="collapse-item" href="utilities-other.html">Other</a>
                     </div>
                 </div>
             </li>
@@ -591,8 +604,32 @@
                 })
                     // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
                     .done(function(json) {
-                        console.log(json.spendingAll);
-                        document.getElementById("spendingAll").innerHTML = json.spendingAll;
+                        console.log(json.userAccountAll);
+                        var i;
+                        var inner="";
+                        for (i=0; i<json.userAccountAll.length; i++){
+                            inner += "<a class=\"collapse-item\" href=\"#\">\n" +
+                                "                            <i class=\"fas fa-fw fa-circle\"></i>\n" +
+                                "                            <span name=\"userAccountAll\">"+json.userAccountAll[i]+"</span>\n" +
+                                "                        </a>"
+
+                        }
+                        document.getElementById("loop").innerHTML = inner;
+
+                        var inner1 ="";
+                        for (i=0; i<json.userAccountAll.length; i++){
+                            inner1 += "<a class=\"collapse-item\" href=\"#\">\n" +
+                                "                            <i class=\"fas fa-fw fa-circle\"></i>\n" +
+                                "                            <span name=\"userAccountAll\">"+json.userAccountAll[i]+"</span>\n" +
+                                "                        </a>" +
+                                "<div class=\"input-group-append\">\n" +
+                                "                                            <button onclick=\"btnDelete()\" class=\"btn btn-primary\" type=\"submit\">\n" +
+                                "                                                <span>삭제</span>\n" +
+                                "                                            </button>\n" +
+                                "                                        </div>"
+
+                        }
+                        document.getElementById("loop1").innerHTML = inner1;
                     })
 
                     // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
@@ -609,6 +646,10 @@
 
     function btnRegister(){
         alert('등록에 성공했습니다.');
+    }
+
+    function btnDelete(){
+        alert('삭제에 성공했습니다.');
     }
 
 </script>
