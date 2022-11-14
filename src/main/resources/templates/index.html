@@ -133,57 +133,58 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">추가 / 삭제</h6>
 
-                        <a class="collapse-item" href="#" id="addDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-plus"></i>
-                            <span>추가</span>
-                        </a>
+                        <div>
+                            <a class="collapse-item" href="#" id="addDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-plus"></i>
+                                <span>추가</span>
+                            </a>
 
-                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                             aria-labelledby="addDropdown">
-                            <h6 class="dropdown-header">
-                                계좌 추가
-                            </h6>
-                            <div class="dropdown-item d-flex align-items-center">
-                                <div>
-                                    <form method="post" action="/register/useraccount" style="width: 300px"
-                                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control bg-light border-0 small" placeholder="계좌 이름(별명)을 입력해주세요."
-                                                   aria-label="Search" aria-describedby="basic-addon2" name="account">
-                                            <input type="hidden" name="userPk" value="">
-                                            <div class="input-group-append">
-                                                <button onclick="btnRegister()" class="btn btn-primary" type="submit">
-                                                    <span>등록</span>
-                                                </button>
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="addDropdown">
+                                <h6 class="dropdown-header">
+                                    계좌 추가
+                                </h6>
+                                <div class="dropdown-item d-flex align-items-center">
+                                    <div>
+                                        <form method="post" action="/register/useraccount" style="width: 300px"
+                                              class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control bg-light border-0 small" placeholder="계좌 이름(별명)을 입력해주세요."
+                                                       aria-label="Search" aria-describedby="basic-addon2" name="account">
+                                                <input type="hidden" name="userPk" value="">
+                                                <div class="input-group-append">
+                                                    <button onclick="btnRegister()" class="btn btn-primary" type="submit">
+                                                        <span>등록</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <a class="collapse-item" href="#" id="deleteDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-fw fa-minus"></i>
-                            <span>삭제</span>
-                        </a>
+                        <div>
+                            <a class="collapse-item" href="#" id="deleteDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-fw fa-minus"></i>
+                                <span>삭제</span>
+                            </a>
 
-                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                             aria-labelledby="deleteDropdown">
-                            <h6 class="dropdown-header">
-                                계좌 삭제
-                            </h6>
-                            <div class="dropdown-item d-flex align-items-center">
-                                <div>
-                                    <form method="post" action="/delete/account" style="width: 300px"
-                                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                                        <div id="loop1"></div>
-                                    </form>
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="deleteDropdown">
+                                <h6 class="dropdown-header">
+                                    계좌 삭제
+                                </h6>
+                                <div class="dropdown-item d-flex align-items-center">
+                                    <div id="loop1">
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 </div>
@@ -329,7 +330,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">DashBoard</h1>
+                        <h1 class="h3 mb-0 text-gray-700">전체 계좌</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -483,6 +484,31 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#accountDeleteModal">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+        삭제
+    </a>
+
+<!--    &lt;!&ndash; Account DeleteModal&ndash;&gt;-->
+<!--    <div class="modal fade" id="accountDeleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"-->
+<!--         aria-hidden="true">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="ModalLabel">Ready to Delete?</h5>-->
+<!--                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">×</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">정말 계좌를 삭제 하시겠습니까?</div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>-->
+<!--                    <a class="btn btn-danger" href="javascript:void(0)" onclick="kakaoLogout();">Delete</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -539,24 +565,6 @@
         Kakao.API.request({
             url: '/v2/user/me',
             success: function (res) {
-                // 닉네임, 프로필이미지
-                var id = res.id;
-                // idd = res.id;
-                // var nickname = res.properties.nickname;
-                document.getElementsByName("userPk")[0].value = res.id;
-                document.getElementById("nickname").innerHTML = res.properties.nickname;
-                // var picture = res.properties.profile_image;
-                document.getElementById("image").src = res.properties.profile_image;
-
-
-                // document.getElementById("userPk").value = String(id);
-                // document.getElementById("nickname").innerHTML = nickname;
-                // document.getElementById("image").src = picture;
-
-                console.log(id);
-                console.log(nickname);
-                console.log(res);
-                console.log(res.propertis);
 
                 console.log("시이자악!");
                 $.ajax({
@@ -618,18 +626,28 @@
 
                         var inner1 ="";
                         for (i=0; i<json.userAccountAll.length; i++){
-                            inner1 += "<a class=\"collapse-item\" href=\"#\">\n" +
-                                "                            <i class=\"fas fa-fw fa-circle\"></i>\n" +
-                                "                            <span name=\"userAccountAll\">"+json.userAccountAll[i]+"</span>\n" +
-                                "                        </a>" +
-                                "<div class=\"input-group-append\">\n" +
-                                "                                            <button onclick=\"btnDelete()\" class=\"btn btn-primary\" type=\"submit\">\n" +
-                                "                                                <span>삭제</span>\n" +
-                                "                                            </button>\n" +
-                                "                                        </div>"
-
+                            inner1 +=
+                                "<form method=\"post\" action=\"/delete/account\" class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "<div style=\" width: 200px; height: 50px\">\n" +
+                                "<div class=\"collapse-item\" href=\"#\" style=\"float: left\">\n" +
+                                "       <i class=\"fas fa-fw fa-circle\"></i>\n" +
+                                "          <span name=\"userAccountAll\">"+json.userAccountAll[i]+"</span>\n" +
+                                "</div>" +
+                                "<div class=\"input-group-append\" style=\"float: right\">\n" +
+                                "   <input type=\"hidden\" name=\"userPk\" value=\"\">\n" +
+                                "   <input type=\"hidden\" name=\"account\" value=\"\">\n" +
+                                "   <button onclick=\"btnDelete()\" class=\"btn btn-primary\" type=\"submit\">\n" +
+                                "       <span>삭제</span>\n" +
+                                "   </button>\n" +
+                                "</div>" +
+                                "</div>" +
+                                    "</form>"
                         }
                         document.getElementById("loop1").innerHTML = inner1;
+                        for (i=0; i<json.userAccountAll.length; i++){
+                            document.getElementsByName("userPk")[i+1].value = res.id;
+                            document.getElementsByName("account")[i+1].value = json.userAccountAll[i];
+                        }
                     })
 
                     // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
@@ -638,6 +656,26 @@
                             .append("오류명: " + errorThrown + "<br>")
                             .append("상태: " + status);
                     });
+                // 닉네임, 프로필이미지
+                var id = res.id;
+                // idd = res.id;
+                // var nickname = res.properties.nickname;
+                document.getElementsByName("userPk")[0].value = res.id;
+                // document.getElementsByClassName("userPk")[0].value = res.id;
+                document.getElementById("nickname").innerHTML = res.properties.nickname;
+                // var picture = res.properties.profile_image;
+                document.getElementById("image").src = res.properties.profile_image;
+
+
+                // document.getElementById("userPk").value = String(id);
+                // document.getElementById("nickname").innerHTML = nickname;
+                // document.getElementById("image").src = picture;
+
+                console.log(id);
+                console.log(nickname);
+                console.log(res);
+                console.log(res.propertis);
+
             }
         });
 

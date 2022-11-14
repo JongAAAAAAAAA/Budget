@@ -301,9 +301,8 @@ public class BudgetController {
         infoService.detailDelete(infoDTO);
     }
 
-    @ResponseBody
     @PostMapping("/delete/account") // 특정 계좌 삭제
-    void deleteAccount(@RequestBody UserAccountDTO userAccountDTO){
+    String deleteAccount(UserAccountDTO userAccountDTO){
         log.info("user {} 의 계좌 {} 삭제", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
 
         Optional<UserAccount> getUserAccount = userAccountRepository.findByUserPkAndAccount(
@@ -317,6 +316,8 @@ public class BudgetController {
         for (int i=0; i<getInfo.get().size(); i++){
             infoRepository.delete(getInfo.get().get(i));
         }
+
+        return "redirect:/";
     }
 
     //로그아웃? 웹에서 ㅇㅇ , 전체 계좌 조회 및 특정계좌 조회?
