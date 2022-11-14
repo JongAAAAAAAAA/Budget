@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xml:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -529,12 +528,22 @@
                         var i;
                         var inner="";
                         for (i=0; i<json.userAccountAll.length; i++){
-                            inner += "<a onclick=\"titleChange("+i+");\" class=\"collapse-item\" href=\"#\">\n" +
+                            inner +=
+                                "<form method=\"post\" action=\"/bridge\" name='formTag' class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">" +
+                                "   <input type=\"hidden\" name=\"userPk\" value=\"\">\n" +
+                                "<input type=\"hidden\" name=\"account\" value=\"\">\n" +
+                                "<a onclick='document.getElementsByName(\"formTag\")["+i+"].submit();' class=\"collapse-item\" href=\"#\">\n" +
                                 "                            <i class=\"fas fa-fw fa-circle\"></i>\n" +
                                 "                            <span name=\"userAccountAll\">"+json.userAccountAll[i]+"</span>\n" +
-                                "                        </a>"
+                                "                        </a>" +
+                                "</form>"
                         }
                         document.getElementById("loop").innerHTML = inner;
+                        for (i=0; i<json.userAccountAll.length; i++){
+                            document.getElementsByName("userPk")[i].value = res.id;
+                            document.getElementsByName("account")[i].value = json.userAccountAll[i];
+                        }
+                        document.getElementsByName("userPk")[json.userAccountAll.length].value = res.id;
 
                         var inner1 ="";
                         for (i=0; i<json.userAccountAll.length; i++){
@@ -556,9 +565,9 @@
                                     "</form>"
                         }
                         document.getElementById("loop1").innerHTML = inner1;
-                        for (i=0; i<json.userAccountAll.length; i++){
-                            document.getElementsByName("userPk")[i+1].value = res.id;
-                            document.getElementsByName("account")[i+1].value = json.userAccountAll[i];
+                        for (i=json.userAccountAll.length+1; i<(json.userAccountAll.length*2)+1; i++){
+                            document.getElementsByName("userPk")[i].value = res.id;
+                            document.getElementsByName("account")[i].value = json.userAccountAll[i-(json.userAccountAll.length+1)];
                         }
                     })
 
@@ -572,7 +581,7 @@
                 var id = res.id;
                 // idd = res.id;
                 // var nickname = res.properties.nickname;
-                document.getElementsByName("userPk")[0].value = res.id;
+                // document.getElementsByName("userPk")[0].value = res.id;
                 // document.getElementsByClassName("userPk")[0].value = res.id;
                 document.getElementById("nickname").innerHTML = res.properties.nickname;
                 // var picture = res.properties.profile_image;

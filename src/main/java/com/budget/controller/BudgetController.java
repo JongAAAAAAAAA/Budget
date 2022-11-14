@@ -33,9 +33,9 @@ public class BudgetController {
         return "login";
     }
 
-    @GetMapping("buttons.html")
-    String buttons() {
-        return "buttons";
+    @GetMapping("accounts.html")
+    String accounts() {
+        return "accounts";
     }
 
     @ResponseBody
@@ -325,6 +325,17 @@ public class BudgetController {
         return "redirect:/";
     }
 
-    //로그아웃? 웹에서 ㅇㅇ , 전체 계좌 조회 및 특정계좌 조회?
+    @PostMapping("/bridge") // 목록에 있는 계좌 클릭 시 데이터 전송
+    String bridge(UserAccountDTO userAccountDTO, Model model){
+        log.info("user {} 의 계좌 {} 선택", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
+
+        String userPk = userAccountDTO.getUserPk();
+        String account = userAccountDTO.getAccount();
+
+        model.addAttribute("userPk", userPk);
+        model.addAttribute("account", account);
+
+        return "redirect:/accounts.html";
+    }
 
 }
