@@ -285,10 +285,10 @@ public class BudgetController {
     String bridge(UserAccountDTO userAccountDTO, Model model){
         log.info("user {} 의 계좌 {} 선택", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
 
-        String userPk = userAccountDTO.getUserPk();
+//        String userPk = userAccountDTO.getUserPk();
         String account = userAccountDTO.getAccount();
 
-        model.addAttribute("userPk", userPk);
+//        model.addAttribute("userPk", userPk);
         model.addAttribute("account", account);
 
         return "accounts";
