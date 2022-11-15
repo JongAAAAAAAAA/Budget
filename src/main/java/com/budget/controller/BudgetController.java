@@ -117,35 +117,20 @@ public class BudgetController {
         infoService.incomeUpdate(infoDTO);
     }
 
-    @ResponseBody
     @PostMapping("/search/total/each") // 특정 계좌 예산 조회
-    int totalSearchEach(@RequestBody InfoDTO infoDTO) {
+    String totalSearchEach(InfoDTO infoDTO, Model model) {
         log.info("user {} 의 계좌 {} 예산 조회", infoDTO.getUserPk(), infoDTO.getAccount());
 
         Optional<UserAccount> getTotal = userAccountRepository.findByUserPkAndAccount(new UserPk(infoDTO.getUserPk()), infoDTO.getAccount());
 
         Integer total = getTotal.get().getTotal();
 
-        return total;
-    }
+        log.info("totalEach:{}",total);
 
-//    @ResponseBody
-//    @GetMapping("/search/total/all") // 총 예산 조회
-//    String totalSearch(@RequestParam(value = "userPk", required = false)  String userPk, Model model){
-////        log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
-//
-//        Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(userPk));
-//
-//        Integer total = 0;
-//
-//        for(int i=0; i<totalByUserPk.get().size(); i++){
-//            total += totalByUserPk.get().get(i).getTotal();
-//        }
-//
-//        model.addAttribute("totalAll", total);
-//
-//        return "index";
-//    }
+        model.addAttribute("totalEach", total);
+
+        return "accounts";
+    }
 
     @ResponseBody
     @PostMapping("/search/total/all") // 총 예산 조회
@@ -168,38 +153,6 @@ public class BudgetController {
 
         return stringIntegerHashMap;
     }
-
-//    @ResponseBody
-//    @PostMapping("/search/total/all") // 총 예산 조회
-//    String totalSearch(@RequestBody InfoDTO infoDTO, Model model){
-//        log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
-//
-//        Optional<List<UserAccount>> totalByUserPk = userAccountRepository.findByUserPk(new UserPk(infoDTO.getUserPk()));
-//
-//        Integer total = 0;
-//
-//        for(int i=0; i<totalByUserPk.get().size(); i++){
-//            total += totalByUserPk.get().get(i).getTotal();
-//        }
-//
-//        model.addAttribute("totalAll", total);
-//
-//        return "index";
-//
-//        int allSpendingSearch(@RequestBody InfoDTO infoDTO){
-//            log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
-//
-//            Optional<List<Info>> userPk = infoRepository.findByUserPkAndIncome(new UserPk(infoDTO.getUserPk()), null);
-//
-//            Integer spending = 0;
-//
-//            for (int i=0; i<userPk.get().size(); i++){
-//                spending += userPk.get().get(i).getSpending();
-//            }
-//
-//            return spending;
-//        }
-//    }
 
     @ResponseBody
     @PostMapping("/search/spending/day") // 하루 지출 조회
@@ -263,9 +216,8 @@ public class BudgetController {
         return stringIntegerHashMap;
     }
 
-    @ResponseBody
     @PostMapping("/search/spending/each") // 특정 계좌 지출 조회
-    int spendingSearchEach(@RequestBody InfoDTO infoDTO) {
+    String spendingSearchEach(InfoDTO infoDTO, Model model) {
         log.info("user {} 의 계좌 {} 지출 조회", infoDTO.getUserPk(), infoDTO.getAccount());
 
         Optional<List<Info>> getSpending = infoRepository.findByUserPkAndAccountAndIncome(
@@ -277,7 +229,11 @@ public class BudgetController {
             spending += getSpending.get().get(i).getSpending();
         }
 
-        return spending;
+        log.info("spendingEach:{}", spending);
+
+        model.addAttribute("spendingEach", spending);
+
+        return "accounts";
     }
 
 //    @ResponseBody
@@ -325,7 +281,7 @@ public class BudgetController {
         return "redirect:/";
     }
 
-    @PostMapping("/bridge") // 목록에 있는 계좌 클릭 시 데이터 전송
+    @PostMapping("/accounts.html") // 목록에 있는 계좌 클릭 시 데이터 전송
     String bridge(UserAccountDTO userAccountDTO, Model model){
         log.info("user {} 의 계좌 {} 선택", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
 
@@ -335,7 +291,7 @@ public class BudgetController {
         model.addAttribute("userPk", userPk);
         model.addAttribute("account", account);
 
-        return "redirect:/accounts.html";
+        return "accounts";
     }
 
 }
