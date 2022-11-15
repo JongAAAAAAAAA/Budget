@@ -45,8 +45,8 @@ public class UserPkTest {
         userAccountRepository.save(userAccount);
 
 
-        Optional<List<Integer>> totalByUserPk = userAccountRepository.findTotalByUserPk(new UserPk("testUser"));
+//        Optional<List<Integer>> totalByUserPk = userAccountRepository.findTotalByUserPk(new UserPk("testUser"));
 
-        System.out.println("totalByUserPk = " + totalByUserPk.get().get(0));
+//        System.out.println("totalByUserPk = " + totalByUserPk.get().get(0));
     }
 }

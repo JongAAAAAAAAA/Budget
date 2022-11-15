@@ -318,13 +318,13 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-700" th:text="${account}">특정 계좌</h1>
+                    <h1 id="accountEachName" class="h3 mb-0 text-gray-700" th:text="${account}">특정 계좌</h1>
                 </div>
 
                 <!-- Content Row -->
                 <div class="row">
 
-                    <!-- Earnings (Monthly) Card Example -->
+                    <!-- Earnings Card Example -->
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
@@ -343,7 +343,7 @@
                         </div>
                     </div>
 
-                    <!-- Earnings (Monthly) Card Example -->
+                    <!-- Spendings Card Example -->
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-success shadow h-100 py-2">
                             <div class="card-body">
@@ -479,49 +479,7 @@
             success: function (res) {
 
                 console.log("시이자악!");
-                $.ajax({
-                    url: "http://localhost:8080/search/total/each", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
-                    data: {
-                        userPk: res.id,
-                        account: "신한은행",
-                    }, // HTTP 요청과 함께 서버로 보낼 데이터
-                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
-                    dataType: "json" // 서버에서 보내줄 데이터의 타입
-                })
-                    // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
-                    // .done(function(json) {
-                    //     console.log(json.totalAll);
-                    //     document.getElementById("totalAll").innerHTML = json.totalAll;
-                    // })
-                    //
-                    //
-                    // // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
-                    // .fail(function(xhr, status, errorThrown) {
-                    //     $("#text").html("오류가 발생했다.<br>")
-                    //         .append("오류명: " + errorThrown + "<br>")
-                    //         .append("상태: " + status);
-                    // });
-                $.ajax({
-                    url: "http://localhost:8080/search/spending/each", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
-                    data: {
-                        userPk: res.id,
-                        account: "신한은행",
-                    }, // HTTP 요청과 함께 서버로 보낼 데이터
-                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
-                    dataType: "json" // 서버에서 보내줄 데이터의 타입
-                })
-                    // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
-                    // .done(function(json) {
-                    //     console.log(json.spendingAll);
-                    //     document.getElementById("spendingAll").innerHTML = json.spendingAll;
-                    // })
-                    //
-                    // // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
-                    // .fail(function(xhr, status, errorThrown) {
-                    //     $("#text").html("오류가 발생했다.<br>")
-                    //         .append("오류명: " + errorThrown + "<br>")
-                    //         .append("상태: " + status);
-                    // });
+
                 $.ajax({
                     url: "http://localhost:8080/search/useraccount", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
                     data: { userPk: res.id }, // HTTP 요청과 함께 서버로 보낼 데이터
@@ -583,6 +541,49 @@
                             .append("오류명: " + errorThrown + "<br>")
                             .append("상태: " + status);
                     });
+                $.ajax({
+                    url: "http://localhost:8080/search/total/each", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                    data: {
+                        userPk: res.id,
+                        account: document.getElementById("accountEachName").innerText,
+                    }, // HTTP 요청과 함께 서버로 보낼 데이터
+                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+                    dataType: "json" // 서버에서 보내줄 데이터의 타입
+                })
+                // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+                // .done(function(json) {
+                //     console.log(json.totalAll);
+                //     document.getElementById("totalAll").innerHTML = json.totalAll;
+                // })
+                //
+                //
+                // // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                // .fail(function(xhr, status, errorThrown) {
+                //     $("#text").html("오류가 발생했다.<br>")
+                //         .append("오류명: " + errorThrown + "<br>")
+                //         .append("상태: " + status);
+                // });
+                $.ajax({
+                    url: "http://localhost:8080/search/spending/each", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                    data: {
+                        userPk: res.id,
+                        account: document.getElementById("accountEachName").innerText,
+                    }, // HTTP 요청과 함께 서버로 보낼 데이터
+                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+                    dataType: "json" // 서버에서 보내줄 데이터의 타입
+                })
+                // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+                // .done(function(json) {
+                //     console.log(json.spendingAll);
+                //     document.getElementById("spendingAll").innerHTML = json.spendingAll;
+                // })
+                //
+                // // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                // .fail(function(xhr, status, errorThrown) {
+                //     $("#text").html("오류가 발생했다.<br>")
+                //         .append("오류명: " + errorThrown + "<br>")
+                //         .append("상태: " + status);
+                // });
                 // 닉네임, 프로필이미지
                 var id = res.id;
                 // idd = res.id;
