@@ -43,6 +43,11 @@ public class BudgetController {
         return "404";
     }
 
+    @GetMapping("test.html")
+    String test() {
+        return "test";
+    }
+
     @ResponseBody
     @PostMapping("/register/user") // 유저 등록
     void userRegister(UserDTO userDTO){
@@ -124,7 +129,6 @@ public class BudgetController {
 
     @PostMapping("/search/total/each") // 특정 계좌 예산 조회
     String totalSearchEach(InfoDTO infoDTO, Model model) {
-        log.info("user {} 의 계좌 {} 예산 조회", infoDTO.getUserPk(), infoDTO.getAccount());
 
         Optional<UserAccount> getTotal = userAccountRepository.findByUserPkAndAccount(new UserPk(infoDTO.getUserPk()), infoDTO.getAccount());
 
@@ -134,6 +138,7 @@ public class BudgetController {
 
         model.addAttribute("totalEach", total);
 
+        log.info("user {} 의 계좌 {} 예산 조회", infoDTO.getUserPk(), infoDTO.getAccount());
         return "accounts";
     }
 
@@ -223,7 +228,6 @@ public class BudgetController {
 
     @PostMapping("/search/spending/each") // 특정 계좌 지출 조회
     String spendingSearchEach(InfoDTO infoDTO, Model model) {
-        log.info("user {} 의 계좌 {} 지출 조회", infoDTO.getUserPk(), infoDTO.getAccount());
 
         Optional<List<Info>> getSpending = infoRepository.findByUserPkAndAccountAndIncome(
                 new UserPk(infoDTO.getUserPk()), infoDTO.getAccount(), null);
@@ -238,6 +242,7 @@ public class BudgetController {
 
         model.addAttribute("spendingEach", spending);
 
+        log.info("user {} 의 계좌 {} 지출 조회", infoDTO.getUserPk(), infoDTO.getAccount());
         return "accounts";
     }
 
@@ -288,7 +293,6 @@ public class BudgetController {
 
     @PostMapping("/accounts.html") // 목록에 있는 계좌 클릭 시 데이터 전송
     String bridge(UserAccountDTO userAccountDTO, Model model){
-        log.info("user {} 의 계좌 {} 선택", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
 
 //        String userPk = userAccountDTO.getUserPk();
         String account = userAccountDTO.getAccount();
@@ -296,7 +300,42 @@ public class BudgetController {
 //        model.addAttribute("userPk", userPk);
         model.addAttribute("account", account);
 
+        log.info("user {} 의 계좌 {} 선택", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
         return "accounts";
     }
+
+    @PostMapping("/test.html") // 목록에 있는 계좌 클릭 시 데이터 전송
+    String thymeleafTest1(UserAccountDTO userAccountDTO, Model model){
+
+//        String userPk = userAccountDTO.getUserPk();
+        String account = userAccountDTO.getAccount();
+
+//        model.addAttribute("userPk", userPk);
+        model.addAttribute("account", account);
+
+        log.info("user {} 의 계좌 {} 선택", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
+        return "test";
+    }
+
+    @PostMapping("/test2.html") // 특정 계좌 지출 조회
+    String thymeleafTest2(InfoDTO infoDTO, Model model) {
+
+        Optional<List<Info>> getSpending = infoRepository.findByUserPkAndAccountAndIncome(
+                new UserPk(infoDTO.getUserPk()), infoDTO.getAccount(), null);
+
+        Integer spending = 0;
+
+        for (int i=0; i<getSpending.get().size(); i++){
+            spending += getSpending.get().get(i).getSpending();
+        }
+
+        log.info("spendingEach:{}", spending);
+
+        model.addAttribute("spendingEach", spending);
+
+        log.info("user {} 의 계좌 {} 지출 조회", infoDTO.getUserPk(), infoDTO.getAccount());
+        return "test";
+    }
+
 
 }

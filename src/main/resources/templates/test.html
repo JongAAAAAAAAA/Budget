@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="test()">wjsthdaf</button>
+<div th:text="${account}">test1</div>
+<div th:text="${spendingEach}">test2</div>
+</body>
+</html>
+<script>
+  function test(){
+    $.ajax({
+      url: "http://localhost:8080/test.html", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+      data: { userPk: 2518094859,
+      account :"신한은행"}, // HTTP 요청과 함께 서버로 보낼 데이터
+      method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+      dataType: "json" // 서버에서 보내줄 데이터의 타입
+    })
+    $.ajax({
+      url: "http://localhost:8080/test2.html", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+      data: { userPk: 2518094859,
+        account :"신한은행"}, // HTTP 요청과 함께 서버로 보낼 데이터
+      method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+      dataType: "json" // 서버에서 보내줄 데이터의 타입
+    })
+  }
+
+
+</script>

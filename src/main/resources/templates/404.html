@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      rel="stylesheet">
+<!-- Popperjs -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.2/dist/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+<!-- Tempus Dominus JavaScript -->
+<script src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js"
+        crossorigin="anonymous"></script>
+
+<!-- Tempus Dominus Styles -->
+<link href="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css"
+      rel="stylesheet" crossorigin="anonymous">
 <head>
 
     <meta charset="utf-8">
@@ -30,8 +34,26 @@
 </head>
 
 <body id="page-top">
-
-<input type="text" id="datePicker" class="form-control" value="2022-11-15" />
+<div
+        class='input-group'
+        id='datetimepicker1'
+        data-td-target-input='nearest'
+        data-td-target-toggle='nearest'
+>
+    <input
+            id='datetimepicker1Input'
+            type='text'
+            class='form-control'
+            data-td-target='#datetimepicker1'
+    />
+    <span
+            class='input-group-text'
+            data-td-target='#datetimepicker1'
+            data-td-toggle='datetimepicker'
+    >
+     <span class='fa-solid fa-calendar'></span>
+   </span>
+</div>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -423,16 +445,26 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
 </body>
 
 </html>
+<script>
+    new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'), {
+        display: {
+            components: {
+                seconds: false,
+            },
+            icons: {
+                type: 'icons',
+                date: 'fa fa-solid fa-calendar',
+                up: 'fa fa-solid fa-arrow-up',
+                down: 'fa fa-solid fa-arrow-down',
+                previous: 'fa fa-solid fa-chevron-left',
+                next: 'fa fa-solid fa-chevron-right',
+                today: 'fa fa-solid fa-calendar-check',
+                clear: 'fa fa-solid fa-trash',
+                close: 'fas fa-solid fa-xmark'
+            },
+        },
+    });
+</script>
