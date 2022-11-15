@@ -38,6 +38,11 @@ public class BudgetController {
         return "accounts";
     }
 
+    @GetMapping("404.html")
+    String error() {
+        return "404";
+    }
+
     @ResponseBody
     @PostMapping("/register/user") // 유저 등록
     void userRegister(UserDTO userDTO){
