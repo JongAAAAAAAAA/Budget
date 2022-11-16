@@ -38,6 +38,11 @@ public class BudgetController {
         return "accounts";
     }
 
+    @GetMapping("contact.html")
+    String contact() {
+        return "contact";
+    }
+
     @GetMapping("404.html")
     String error() {
         return "404";
@@ -127,8 +132,12 @@ public class BudgetController {
         infoService.incomeUpdate(infoDTO);
     }
 
+    @ResponseBody
     @PostMapping("/search/total/each") // 특정 계좌 예산 조회
-    String totalSearchEach(InfoDTO infoDTO, Model model) {
+    Map totalSearchEach(InfoDTO infoDTO) {
+        log.info("user {} 의 계좌 {} 예산 조회", infoDTO.getUserPk(), infoDTO.getAccount());
+
+        HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
         Optional<UserAccount> getTotal = userAccountRepository.findByUserPkAndAccount(new UserPk(infoDTO.getUserPk()), infoDTO.getAccount());
 
@@ -136,10 +145,11 @@ public class BudgetController {
 
         log.info("totalEach:{}",total);
 
-        model.addAttribute("totalEach", total);
+//        model.addAttribute("totalEach", total);
 
-        log.info("user {} 의 계좌 {} 예산 조회", infoDTO.getUserPk(), infoDTO.getAccount());
-        return "accounts";
+        stringIntegerHashMap.put("totalEach", total);
+
+        return stringIntegerHashMap;
     }
 
     @ResponseBody
@@ -226,8 +236,10 @@ public class BudgetController {
         return stringIntegerHashMap;
     }
 
+    @ResponseBody
     @PostMapping("/search/spending/each") // 특정 계좌 지출 조회
-    String spendingSearchEach(InfoDTO infoDTO, Model model) {
+    Map spendingSearchEach(InfoDTO infoDTO) {
+        HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
         Optional<List<Info>> getSpending = infoRepository.findByUserPkAndAccountAndIncome(
                 new UserPk(infoDTO.getUserPk()), infoDTO.getAccount(), null);
@@ -240,10 +252,13 @@ public class BudgetController {
 
         log.info("spendingEach:{}", spending);
 
-        model.addAttribute("spendingEach", spending);
+//        model.addAttribute("spendingEach", spending);
+
+        stringIntegerHashMap.put("spendingEach", spending);
+
 
         log.info("user {} 의 계좌 {} 지출 조회", infoDTO.getUserPk(), infoDTO.getAccount());
-        return "accounts";
+        return stringIntegerHashMap;
     }
 
 //    @ResponseBody

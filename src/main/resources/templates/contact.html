@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!-- ajax jquery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- 부트 스트랩 -->
@@ -7,13 +7,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-<!-- Calendar -->
-<!-- Popperjs -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-<!-- Tempus Dominus JavaScript -->
-<script src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js" crossorigin="anonymous"></script>
-<!-- Tempus Dominus Styles -->
-<link href="/css/tempus-dominus.css" rel="stylesheet" crossorigin="anonymous">
 
 <head>
 
@@ -272,102 +265,41 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 id="accountEachName" class="h3 mb-0 text-gray-700" th:text="${account}">특정 계좌</h1>
+                    <h1 id="accountEachName" class="h3 mb-0 text-gray-800">Contact</h1>
                 </div>
 
-                <!-- Content Row -->
-                <div class="row">
-
-                    <!-- Earnings Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            남은 예산</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">₩ <span id="totalEach">0</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spendings Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            사용 금액</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">₩ <span id="spendingEach">>0</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
 
                 <!-- Content Row -->
 
                 <div class="row">
 
-                    <!-- Calendar -->
-                    <div class="col-xl-8 col-lg-7">
+                    <!-- Contact -->
+                    <div class="col-xl-4 col-lg-7">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
                             <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Calendar</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Developer</h6>
                             </div>
 
-                            <div class="card-body">
-                                <div class='input-group' id='datetimepicker1' data-td-target-input='nearest'
-                                     data-td-target-toggle='nearest' >
-                                    <input id='datetimepicker1Input' type='text' class='form-control' data-td-target='#datetimepicker1'/>
-                                    <input type="text" class='form-control' id="userPk" name="userPk" value="" placeholder="금액"/>
-                                    <input type="text" class='form-control' name="content" value="" placeholder="내용"/>
-                                    <span class='input-group-text' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
-                                        <span class='fa-solid fa-calendar'></span>
-                                    </span>
-                                    <button class='input-group-text' onclick="javascript:btnIncome()">
-                                        <span class="fas fa-fw fa-plus"></span>
-                                    </button>
-                                    <span class='input-group-text' onclick="javascript:btnSpending()">
-                                        <span class="fas fa-fw fa-minus"></span>
-                                    </span>
-
-
+                            <div class="card" style="width: 23.2rem; margin: auto">
+<!--                                <img src="/css/KakaoTalk_20221022_175051603-removebg-preview.png" class="card-img-top" alt="...">-->
+                                <div class="card-body">
+                                    <h5 class="card-title">지현종</h5>
+                                    <p class="card-text">가천대학교 컴퓨터공학과 4학년</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">WEB 서버 API 개발 <br> DB 설계 및 구축 <br> 웹 페이지 제작</li>
+                                    <li class="list-group-item">wlguswhd0809@naver.com</li>
+                                </ul>
+                                <div class="card-body">
+                                    <a href="https://github.com/JongAAAAAAAAA/Integrated_Project" class="card-link">Github Address</a>
                                 </div>
                             </div>
 
                         </div>
                     </div>
 
-                    <!-- Memo -->
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Memo</h6>
-                            </div>
-                            <div class="card-body">
-<!--                                <input type="text" id="datePicker111" class="form-control" value="2022-11-15" />-->
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -579,41 +511,4 @@
         }
     }
 
-    function btnIncome(){
-        if (confirm("수입 내역을 등록하시겠습니까?") == true){
-            alert("수입 내역이 등록되었습니다")
-        }else{
-            return false;
-        }
-    }
-
-    function btnSpending(){
-        if (confirm("지출 내역을 등록하시겠습니까?") == true){
-            alert("지출 내역이 등록되었습니다")
-        }else{
-            return false;
-        }
-    }
-
-</script>
-<!-- Calendar -->
-<script>
-    new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'), {
-        display: {
-            components: {
-                seconds: false,
-            },
-            icons: {
-                type: 'icons',
-                date: 'fa fa-solid fa-calendar',
-                up: 'fa fa-solid fa-arrow-up',
-                down: 'fa fa-solid fa-arrow-down',
-                previous: 'fa fa-solid fa-chevron-left',
-                next: 'fa fa-solid fa-chevron-right',
-                today: 'fa fa-solid fa-calendar-check',
-                clear: 'fa fa-solid fa-trash',
-                close: 'fas fa-solid fa-xmark'
-            },
-        },
-    });
 </script>
