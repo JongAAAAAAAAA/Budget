@@ -6,13 +6,13 @@
     <title>Title</title>
 </head>
 <body>
-<button onclick="test()">wjsthdaf</button>
+<button onclick="test()">타임리프 테스트</button>
 <div th:text="${account}">test1</div>
 <div th:text="${spendingEach}">test2</div>
 </body>
 </html>
 <script>
-  function test(){
+  function test(){ // 편의 상 userPk, account 고정
     $.ajax({
       url: "http://localhost:8080/test.html", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
       data: { userPk: 2518094859,
