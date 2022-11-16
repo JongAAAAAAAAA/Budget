@@ -172,8 +172,12 @@ public class BudgetController {
 
     @ResponseBody
     @PostMapping("/search/spending/day") // 하루 지출 조회
-    int daySpendingSearch(@RequestBody InfoDTO infoDTO){
-        log.info("user {} 의 하루 지출 조회", infoDTO.getUserPk());
+    Map daySpendingSearch(InfoDTO infoDTO){
+        log.info("user {} 의 {} 하루 지출 조회", infoDTO.getUserPk(), infoDTO.getLocalDate());
+
+        String userPk = infoDTO.getUserPk();
+
+        HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
         Optional<List<Info>> getList = infoRepository.findByUserPkAndLocalDateAndIncome(
                 new UserPk(infoDTO.getUserPk()), infoDTO.getLocalDate(), null);
@@ -184,13 +188,17 @@ public class BudgetController {
             spending += getList.get().get(i).getSpending();
         }
 
-        return spending;
+        stringIntegerHashMap.put("spendingDay", spending);
+
+        return stringIntegerHashMap;
     }
 
     @ResponseBody // 수정해야함 findbyuserpkandlocaldateandincome 에 getlocaldate 들어가는 순간 한 달을 잡을 수가 없음
     @PostMapping("/search/spending/month") // 한 달 지출 조회 , 한 달 조회시 년 월 일 까지 지정해야하는데 특정 달 클릭시 1일로 출력되게끔 설정해야함
-    int monthSpendingSearch(@RequestBody InfoDTO infoDTO) {
+    Map monthSpendingSearch(InfoDTO infoDTO) {
         log.info("user {} 의 한 달 지출 조회", infoDTO.getUserPk());
+
+        HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
         Optional<List<Info>> getList = infoRepository.findByUserPkAndLocalDateAndIncome(
                 new UserPk(infoDTO.getUserPk()), infoDTO.getLocalDate(), null);
@@ -207,7 +215,10 @@ public class BudgetController {
                 spending += getList.get().get(i).getSpending();
             }
         }
-            return spending;
+
+        stringIntegerHashMap.put("spendingMonth", spending);
+
+        return stringIntegerHashMap;
     }
 
     @ResponseBody
@@ -337,6 +348,5 @@ public class BudgetController {
 
         return "test";
     }
-
 
 }
