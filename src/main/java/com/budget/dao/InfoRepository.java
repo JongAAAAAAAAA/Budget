@@ -13,5 +13,6 @@ public interface InfoRepository extends JpaRepository<Info, Integer> {
     Optional<List<Info>> findByUserPkAndIncome(UserPk userPk, Integer income);
     Optional<List<Info>> findByUserPkAndAccountAndIncome(UserPk userPk, String account, Integer income);
     Optional<List<Info>> findByUserPkAndLocalDateAndIncome(UserPk userPk, LocalDate localDate, Integer income);
+    Optional<List<Info>> findByUserPkAndIncomeAndLocalDateBetween(UserPk userPk,  Integer income, LocalDate start, LocalDate end);
     Optional<List<Info>> findByUserPkAndAccount(UserPk userPk, String account);
 }

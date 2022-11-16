@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -193,27 +195,28 @@ public class BudgetController {
         return stringIntegerHashMap;
     }
 
-    @ResponseBody // 수정해야함 findbyuserpkandlocaldateandincome 에 getlocaldate 들어가는 순간 한 달을 잡을 수가 없음
-    @PostMapping("/search/spending/month") // 한 달 지출 조회 , 한 달 조회시 년 월 일 까지 지정해야하는데 특정 달 클릭시 1일로 출력되게끔 설정해야함
+    @ResponseBody
+    @PostMapping("/search/spending/month") // 한 달 지출 조회
     Map monthSpendingSearch(InfoDTO infoDTO) {
-        log.info("user {} 의 한 달 지출 조회", infoDTO.getUserPk());
+        log.info("user {} 의 {} 한 달 지출 조회", infoDTO.getUserPk(), infoDTO.getLocalDate());
 
         HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
-        Optional<List<Info>> getList = infoRepository.findByUserPkAndLocalDateAndIncome(
-                new UserPk(infoDTO.getUserPk()), infoDTO.getLocalDate(), null);
+        YearMonth baseMonth = YearMonth.from(infoDTO.getLocalDate());
+
+        LocalDate start = baseMonth.atDay(1);
+        LocalDate end = baseMonth.atEndOfMonth();
+
+        log.info(start.toString());
+        log.info(end.toString());
+
+        Optional<List<Info>> getList = infoRepository.findByUserPkAndIncomeAndLocalDateBetween(
+                new UserPk(infoDTO.getUserPk()), null, start, end);
 
         Integer spending = 0;
 
-        for (int i = 0; i < getList.get().size(); i++) {
-            log.info("1 : {}", getList.get().get(i).getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
-            log.info("2 : {}", infoDTO.getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
-
-            if (infoDTO.getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM"))
-                    .equals(getList.get().get(i).getLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM")))
-            ) {
-                spending += getList.get().get(i).getSpending();
-            }
+        for (int i=0; i<getList.get().size(); i++){
+            spending += getList.get().get(i).getSpending();
         }
 
         stringIntegerHashMap.put("spendingMonth", spending);

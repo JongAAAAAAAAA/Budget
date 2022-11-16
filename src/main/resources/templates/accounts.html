@@ -345,24 +345,24 @@
                                         <span class='fa-solid fa-calendar'></span>
                                     </span>
 
-                                    <form method="post" action="/update/income" name="updateIncome">
+                                    <form method="post" action="/update/income" name="updateIncome" onsubmit="return btnIncome()">
                                         <input type="hidden" id="userPkIncome" name="userPk" th:value="${userPk}">
                                         <input type="hidden" id="accountIncome" name="account" th:value="${account}">
                                         <input type="hidden" id="moneyIncome" name="money" value="">
                                         <input type="hidden" id="contentIncome" name="content" value="">
                                         <input type="hidden" id="dateIncome" name="localDateTime" value="">
-                                        <button style="height: 38px" class='input-group-text' onclick="javascript:btnIncome()">
+                                        <button style="height: 38px" class='input-group-text'>
                                             <span class="fas fa-fw fa-plus"></span>
                                         </button>
                                     </form>
 
-                                    <form method="post" action="/update/spending" name="updateSpending">
+                                    <form method="post" action="/update/spending" name="updateSpending" onsubmit="return btnSpending()">
                                         <input type="hidden" id="userPkSpending" name="userPk" th:value="${userPk}">
                                         <input type="hidden" id="accountSpending" name="account" th:value="${account}">
                                         <input type="hidden" id="moneySpending" name="money" value="">
                                         <input type="hidden" id="contentSpending" name="content" value="">
                                         <input type="hidden" id="dateSpending" name="localDateTime" value="">
-                                        <button style="height: 38px" class='input-group-text' onclick="javascript:btnSpending()">
+                                        <button style="height: 38px" class='input-group-text'>
                                             <span class="fas fa-fw fa-minus"></span>
                                         </button>
                                     </form>
@@ -617,13 +617,28 @@
 
             var dateFormat = year+"-"+month+"-"+day+" "+hour+":"+minute+":"+"00";
 
+            if (dateFormat == "-- ::00"){
+                alert("날짜를 선택해주십시오.");
+                return false;
+            }
+
             console.log("dateFormat : ", dateFormat);
 
             document.getElementById("contentIncome").value = document.getElementById("userContent").value;
             document.getElementById("moneyIncome").value = document.getElementById("money").value;
-            document.getElementById("dateIncome").value = dateFormat
+
+            console.log(document.getElementById("money").value);
+
+            if (document.getElementById("money").value == ""){
+                alert("금액을 입력해주십시오.");
+                return false;
+            }
+
+            document.getElementById("dateIncome").value = dateFormat;
             document.updateIncome.submit();
-            alert("수입 내역이 등록되었습니다")
+
+            alert("수입 내역이 등록되었습니다");
+
         }else{
             return false;
         }
@@ -644,13 +659,26 @@
             }
             var dateFormat = year+"-"+month+"-"+day+" "+hour+":"+minute+":"+"00";
 
+            if (dateFormat == "-- ::00"){
+                alert("날짜를 선택해주십시오.");
+                return false;
+            }
+
             console.log("dateFormat : ", dateFormat);
 
             document.getElementById("contentSpending").value = document.getElementById("userContent").value;
             document.getElementById("moneySpending").value = document.getElementById("money").value;
+
+            if (document.getElementById("money").value == ""){
+                alert("금액을 입력해주십시오.");
+                return false;
+            }
+
             document.getElementById("dateSpending").value = dateFormat;
             document.updateSpending.submit();
-            alert("지출 내역이 등록되었습니다")
+
+            alert("지출 내역이 등록되었습니다");
+
         }else{
             return false;
         }
