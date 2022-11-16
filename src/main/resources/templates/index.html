@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!-- ajax jquery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- moment.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <!-- 부트 스트랩 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -336,41 +338,53 @@
 
                     <div class="row">
 
-                        <!-- Calendar -->
+                        <!-- Records -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
+
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Calendar</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Records</h6>
                                 </div>
+
                                 <!-- Card Body -->
                                 <div class="card-body">
+
                                     <div class='input-group' id='datetimepicker1' data-td-target-input='nearest'
-                                         data-td-target-toggle='nearest' >
-                                        <input id='datetimepicker1Input' type='text' class='form-control' data-td-target='#datetimepicker1'/>
-                                        <input type="text" class='form-control' id="userPk" name="userPk" value="" placeholder="금액"/>
+                                         data-td-target-toggle='nearest'>
+
+                                        <input type='text' id='datetimepicker1Input' class='form-control' data-td-target='#datetimepicker1'/>
+                                        <input type="text" class='form-control' id="money" placeholder="금액"/>
+                                        <input type="text" class='form-control' id="userContent" placeholder="내용"/>
+
                                         <span class='input-group-text' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
                                         <span class='fa-solid fa-calendar'></span>
                                     </span>
+
+                                        <form method="post" action="/update/income" name="updateIncome">
+                                            <input type="hidden" id="userPkIncome" name="userPk" th:value="${userPk}">
+                                            <input type="hidden" id="dateIncome" name="localDate" value="">
+                                            <button style="height: 38px" class='input-group-text' onclick="javascript:btnDay()">
+                                                <span style="font-size: small">일별<br>지출</span>
+                                            </button>
+                                        </form>
+
+                                        <form method="post" action="/update/spending" name="updateSpending">
+                                            <input type="hidden" id="userPkSpending" name="userPk" th:value="${userPk}">
+                                            <input type="hidden" id="dateSpending" name="localDate" value="">
+                                            <button style="height: 38px" class='input-group-text' onclick="javascript:btnMonth()">
+                                                <span style="font-size: small">월별<br>지출</span>
+                                            </button>
+                                        </form>
+
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Records -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Records</h6>
-                                </div>
-                                <div class="card-body">
-                                    <input type="text" id="datePicker111" class="form-control" value="2022-11-15" />
                                 </div>
 
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -580,6 +594,45 @@
         }
     }
 
+    function btnDay(){
+        if (confirm("수입 내역을 등록하시겠습니까?") == true){
+            var date = document.getElementById("datetimepicker1Input").value;
+
+            var year = date.substring(0,4);
+            var month = date.substring(6,8);
+            var day = date.substring(10,12);
+
+            var dateFormat = year+"-"+month+"-"+day;
+
+            console.log("dateFormat : ", dateFormat);
+
+            document.getElementById("dateIncome").value = dateFormat
+            document.updateIncome.submit();
+            alert("수입 내역이 등록되었습니다")
+        }else{
+            return false;
+        }
+    }
+
+    function btnMonth(){
+        if (confirm("지출 내역을 등록하시겠습니까?") == true){
+            var date = document.getElementById("datetimepicker1Input").value;
+
+            var year = date.substring(0,4);
+            var month = date.substring(6,8);
+            var day = date.substring(10,12);
+
+            var dateFormat = year+"-"+month+"-"+day;
+
+            console.log("dateFormat : ", dateFormat);
+
+            document.getElementById("dateSpending").value = dateFormat;
+            document.updateSpending.submit();
+            alert("지출 내역이 등록되었습니다")
+        }else{
+            return false;
+        }
+
 </script>
 <!-- Calendar -->
 <script>
@@ -587,6 +640,9 @@
         display: {
             components: {
                 seconds: false,
+                minutes: false,
+                hours: false,
+                useTwentyfourHour: true,
             },
             icons: {
                 type: 'icons',

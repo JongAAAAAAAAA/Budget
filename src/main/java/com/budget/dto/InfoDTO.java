@@ -17,8 +17,7 @@ public class InfoDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     LocalDateTime localDateTime;
 
-
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     LocalDate localDate;
 }

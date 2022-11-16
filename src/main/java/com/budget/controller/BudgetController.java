@@ -91,10 +91,6 @@ public class BudgetController {
 
         stringIntegerHashMap.put("userAccountAll", account);
 
-//        account.iterator().forEachRemaining(a->log.info("{}",a));
-
-//        model.addAttribute("accountList", 1111);
-
         return stringIntegerHashMap;
     }
 
@@ -146,8 +142,6 @@ public class BudgetController {
         Integer total = getTotal.get().getTotal();
 
         log.info("totalEach:{}",total);
-
-//        model.addAttribute("totalEach", total);
 
         stringIntegerHashMap.put("totalEach", total);
 
@@ -262,16 +256,6 @@ public class BudgetController {
 
         return stringIntegerHashMap;
     }
-
-//    @ResponseBody
-//    @PostMapping("/search/balance") // 잔액 조회, 이게 뭐지? 이거 search/total/all를 나타내고자 한 건데 balance 부분 조차 목적이 원래랑 다름
-//    int balanceSearch(@RequestBody InfoDTO infoDTO){
-//        log.info("user {} 의 잔액 조회", infoDTO.getUserPk());
-//
-//        Integer balance = totalSearch(infoDTO) - allSpendingSearch(infoDTO);
-//
-//        return balance;
-//    }
 
     @ResponseBody
     @PostMapping("/update/detail") // 내역 수정
