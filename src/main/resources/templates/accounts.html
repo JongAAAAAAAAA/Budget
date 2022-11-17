@@ -405,7 +405,7 @@
 
                                 </div>
 
-                                <div class="h1 mb-0 font-weight-bold text-gray-700" id="getLists" style="margin-top: 10px; margin-left: 10px"></div>
+                                <div class="h6 mb-0 font-weight-bold text-gray-600" id="getLists" style="margin-top: 10px;"></div>
 
                             </div>
 
@@ -731,7 +731,7 @@
                 data: {
                     userPk: document.getElementsByName("userPk")[0].value,
                     localDate: document.getElementById("dateMonth").value,
-                    account: document.getElementById("accountEachName").value,
+                    account: document.getElementById("accountEachName").innerText,
                 }, // HTTP 요청과 함께 서버로 보낼 데이터
                 method: "Post",   // HTTP 요청 메소드(GET, POST 등)
                 dataType: "json" // 서버에서 보내줄 데이터의 타입
@@ -739,7 +739,22 @@
                 // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
                 .done(function(json) {
                     console.log(json.getLists);
-                    document.getElementById("getLists").innerHTML = "월별 조회" + json.getLists;
+
+                    var list = json.getLists;
+                    var temp = "";
+
+                    for(var i=0; i< list.length; i++) {
+                        if (list[i].income == null){
+                            temp += "<i class=\"fas fa-fw fa-circle\"></i>&nbsp&nbsp&nbsp&nbsp" + "금액 : " + list[i].spending + " 원 " + "&nbsp&nbsp내용 : " + list[i].content
+                                + "<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp일자 : " + list[i].localDate + "<br><br>";
+                        }
+                        else {
+                            temp += "<i class=\"fas fa-fw fa-circle\"></i>&nbsp&nbsp&nbsp&nbsp" + "금액 : " + list[i].income + " 원 " + "&nbsp&nbsp내용 : " + list[i].content
+                                + "<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp일자 : " + list[i].localDate + "<br><br>";
+                        }
+                    }
+
+                    document.getElementById("getLists").innerHTML = temp;
                 })
 
                 // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
