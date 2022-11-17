@@ -314,20 +314,22 @@ public class BudgetController {
         return stringIntegerHashMap;
     }
 
-    @ResponseBody
     @PostMapping("/update/detail") // 내역 수정
-    void updateDetail(@RequestBody InfoDTO infoDTO){
+    String updateDetail(InfoDTO infoDTO){
         log.info("id {} 의 내역 수정", infoDTO.getId());
 
         infoService.detailUpdate(infoDTO);
+
+        return "redirect:/";
     }
 
-    @ResponseBody
     @PostMapping("/delete/detail") // 내역 삭제
-    void deleteDetail(@RequestBody InfoDTO infoDTO){
+    String deleteDetail(InfoDTO infoDTO){
         log.info("id {} 의 내역 삭제", infoDTO.getId());
 
         infoService.detailDelete(infoDTO);
+
+        return "redirect:/";
     }
 
     @PostMapping("/delete/account") // 특정 계좌 삭제
