@@ -728,7 +728,7 @@
             document.getElementById("dateMonth").value = dateFormat;
 
             $.ajax({
-                url: "http://localhost:8080/search/spending/month", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                url: "http://localhost:8080/search/month", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
                 data: {
                     userPk: document.getElementsByName("userPk")[0].value,
                     localDate: document.getElementById("dateMonth").value,
@@ -749,7 +749,7 @@
                         .append("상태: " + status);
                 });
 
-            alert("월별 지출 내역이 조회되었습니다")
+            alert("월별 내역이 조회되었습니다")
         } else {
             return false;
         }

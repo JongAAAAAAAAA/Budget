@@ -225,6 +225,49 @@ public class BudgetController {
     }
 
     @ResponseBody
+    @PostMapping("/search/month") // 한 달 내역 조회
+    Map monthSearch(@RequestBody InfoDTO infoDTO) {
+        log.info("user {} 의 {} 한 달 내역 조회", infoDTO.getUserPk(), infoDTO.getLocalDate());
+
+        HashMap<String, List<Info>> stringListHashMap = new HashMap<>();
+
+        List<Info> getLists = new ArrayList<>();
+
+        YearMonth baseMonth = YearMonth.from(infoDTO.getLocalDate());
+
+        LocalDate start = baseMonth.atDay(1);
+        LocalDate end = baseMonth.atEndOfMonth();
+
+        log.info(start.toString());
+        log.info(end.toString());
+
+        Optional<List<Info>> getListSpending = infoRepository.findByUserPkAndAccountAndIncomeAndLocalDateBetween(
+                new UserPk(infoDTO.getUserPk()), infoDTO.getAccount(), null, start, end);
+
+        Optional<List<Info>> getListIncome = infoRepository.findByUserPkAndAccountAndSpendingAndLocalDateBetween(
+                new UserPk(infoDTO.getUserPk()), infoDTO.getAccount(), null, start, end);
+
+        for (int i=0; i<getListSpending.get().size(); i++){
+            getLists.add(getListSpending.get().get(i));
+        }
+
+        for (int i=0; i<getListIncome.get().size(); i++){
+            getLists.add(getListIncome.get().get(i));
+        }
+
+        Collections.sort(getLists, new Comparator<Info>() { // 사용자가 가진 기기가 여러개 일 때 날짜 최신 순으로 sorting
+            @Override
+            public int compare(Info i1, Info i2) {
+                return i1.getLocalDateTime().compareTo(i2.getLocalDateTime());
+            }
+        }.reversed());
+
+        stringListHashMap.put("getLists", getLists);
+
+        return stringListHashMap;
+    }
+
+    @ResponseBody
     @PostMapping("/search/spending/all") // 총 지출 조회
     Map allSpendingSearch(InfoDTO infoDTO){
         log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
