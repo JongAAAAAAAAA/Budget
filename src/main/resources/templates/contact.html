@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <!-- ajax jquery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- 부트 스트랩 -->
@@ -148,49 +148,6 @@
         </li>
 
         <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Interface
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Components</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Components:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-               aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Utilities</span>
-            </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="utilities-color.html">Colors</a>
-                    <a class="collapse-item" href="utilities-border.html">Borders</a>
-                    <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                    <a class="collapse-item" href="utilities-other.html">Other</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 
         <!-- Heading -->
@@ -283,7 +240,6 @@
                             </div>
 
                             <div class="card" style="width: 23.2rem; margin: auto">
-<!--                                <img src="/css/KakaoTalk_20221022_175051603-removebg-preview.png" class="card-img-top" alt="...">-->
                                 <div class="card-body">
                                     <h5 class="card-title">지현종</h5>
                                     <p class="card-text">가천대학교 컴퓨터공학과 4학년</p>
@@ -429,47 +385,6 @@
                             document.getElementsByName("userPk")[i].value = res.id;
                             document.getElementsByName("account")[i].value = json.userAccountAll[i-(json.userAccountAll.length+1)];
                         }
-                    })
-
-                    // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
-                    .fail(function(xhr, status, errorThrown) {
-                        $("#text").html("오류가 발생했다.<br>")
-                            .append("오류명: " + errorThrown + "<br>")
-                            .append("상태: " + status);
-                    });
-                $.ajax({
-                    url: "http://localhost:8080/search/total/each", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
-                    data: {
-                        userPk: res.id,
-                        account: document.getElementById("accountEachName").innerText,
-                    }, // HTTP 요청과 함께 서버로 보낼 데이터
-                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
-                    dataType: "json" // 서버에서 보내줄 데이터의 타입
-                })  // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
-                    .done(function(json) {
-                        console.log(json.totalEach);
-                        document.getElementById("totalEach").innerHTML = json.totalEach;
-                    })
-
-                    // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
-                    .fail(function(xhr, status, errorThrown) {
-                        $("#text").html("오류가 발생했다.<br>")
-                            .append("오류명: " + errorThrown + "<br>")
-                            .append("상태: " + status);
-                    });
-                $.ajax({
-                    url: "http://localhost:8080/search/spending/each", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
-                    data: {
-                        userPk: res.id,
-                        account: document.getElementById("accountEachName").innerText,
-                    }, // HTTP 요청과 함께 서버로 보낼 데이터
-                    method: "Post",   // HTTP 요청 메소드(GET, POST 등)
-                    dataType: "json" // 서버에서 보내줄 데이터의 타입
-                })
-                    // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
-                    .done(function(json) {
-                        console.log(json.spendingEach);
-                        document.getElementById("spendingEach").innerHTML = json.spendingEach;
                     })
 
                     // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
