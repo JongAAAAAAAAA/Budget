@@ -381,9 +381,33 @@
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">Records</h6>
+
                             </div>
+
                             <div class="card-body">
-    <!--                                <input type="text" id="datePicker111" class="form-control" value="2022-11-15" />-->
+                                <div class='input-group' id='datetimepicker2' data-td-target-input='nearest'
+                                     data-td-target-toggle='nearest'>
+
+                                    <input type='text' id='datetimepicker2Input' class='form-control' data-td-target='#datetimepicker2'/>
+
+                                    <span class='input-group-text' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
+                                            <span class='fa-solid fa-calendar'></span>
+                                        </span>
+
+                                    <div>
+                                        <input type="hidden" id="userPkMonth" name="userPk" value="">
+                                        <input type="hidden" id="dateMonth" name="localDate" value="">
+                                        <input type="hidden" id="incomeMonth" name="income" value=null>
+                                        <button style="height: 38px" class='input-group-text' onclick="javascript:btnMonth()">
+                                            <span style="font-size: small">월별<br>조회</span>
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="h4 mb-0 font-weight-bold text-gray-700" id="spendingDay" style="margin-top: 10px; margin-left: 10px"></div>
+                                <div class="h4 mb-0 font-weight-bold text-gray-700" id="spendingMonth" style="margin-top: 10px; margin-left: 10px"></div>
+
                             </div>
 
                         </div>
@@ -684,6 +708,53 @@
         }
     }
 
+    function btnMonth() {
+        if (confirm("월별 지출을 조회하시겠습니까?") == true) {
+            var date = document.getElementById("datetimepicker1Input").value;
+
+            var year = date.substring(0, 4);
+            var month = date.substring(6, 8);
+            var day = date.substring(10, 12);
+
+            var dateFormat = year + "-" + month + "-" + day;
+
+            console.log("dateFormat : ", dateFormat);
+
+            if (dateFormat == "--"){
+                alert("날짜를 선택해주십시오.");
+                return false;
+            }
+
+            document.getElementById("dateMonth").value = dateFormat;
+
+            $.ajax({
+                url: "http://localhost:8080/search/spending/month", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                data: {
+                    userPk: document.getElementsByName("userPk")[0].value,
+                    localDate: document.getElementById("dateMonth").value,
+                }, // HTTP 요청과 함께 서버로 보낼 데이터
+                method: "Post",   // HTTP 요청 메소드(GET, POST 등)
+                dataType: "json" // 서버에서 보내줄 데이터의 타입
+            })
+                // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
+                .done(function(json) {
+                    console.log(json.spendingMonth);
+                    document.getElementById("spendingMonth").innerHTML = "월별 지출 금액 : ₩ " + json.spendingMonth;
+                })
+
+                // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
+                .fail(function(xhr, status, errorThrown) {
+                    $("#text").html("오류가 발생했다.<br>")
+                        .append("오류명: " + errorThrown + "<br>")
+                        .append("상태: " + status);
+                });
+
+            alert("월별 지출 내역이 조회되었습니다")
+        } else {
+            return false;
+        }
+    }
+
 </script>
 <!-- Calendar -->
 <script>
@@ -691,6 +762,30 @@
         display: {
             components: {
                 seconds: false,
+                useTwentyfourHour: true,
+            },
+            icons: {
+                type: 'icons',
+                date: 'fa fa-solid fa-calendar',
+                up: 'fa fa-solid fa-arrow-up',
+                down: 'fa fa-solid fa-arrow-down',
+                previous: 'fa fa-solid fa-chevron-left',
+                next: 'fa fa-solid fa-chevron-right',
+                today: 'fa fa-solid fa-calendar-check',
+                clear: 'fa fa-solid fa-trash',
+                close: 'fas fa-solid fa-xmark'
+            },
+        },
+    });
+</script>
+
+<script>
+    new tempusDominus.TempusDominus(document.getElementById('datetimepicker2'), {
+        display: {
+            components: {
+                seconds: false,
+                minutes: false,
+                hours: false,
                 useTwentyfourHour: true,
             },
             icons: {

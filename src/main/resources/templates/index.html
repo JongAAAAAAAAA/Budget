@@ -366,8 +366,8 @@
 
                                     </div>
 
-                                    <div id="spendingDay"></div>
-                                    <div id="spendingMonth"></div>
+                                    <div class="h4 mb-0 font-weight-bold text-gray-700" id="spendingDay" style="margin-top: 10px; margin-left: 10px"></div>
+                                    <div class="h4 mb-0 font-weight-bold text-gray-700" id="spendingMonth" style="margin-top: 10px; margin-left: 10px"></div>
 
                                 </div>
 
@@ -614,7 +614,7 @@
                 // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
                 .done(function(json) {
                     console.log(json.spendingDay);
-                    document.getElementById("spendingDay").innerHTML = json.spendingDay;
+                    document.getElementById("spendingDay").innerHTML = "일별 지출 금액 : ₩ " + json.spendingDay;
                 })
 
                 // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
@@ -661,7 +661,7 @@
                 // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
                 .done(function(json) {
                     console.log(json.spendingMonth);
-                    document.getElementById("spendingMonth").innerHTML = json.spendingMonth;
+                    document.getElementById("spendingMonth").innerHTML = "월별 지출 금액 : ₩ " + json.spendingMonth;
                 })
 
                 // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
