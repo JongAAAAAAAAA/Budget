@@ -226,8 +226,8 @@ public class BudgetController {
 
     @ResponseBody
     @PostMapping("/search/month") // 한 달 내역 조회
-    Map monthSearch(@RequestBody InfoDTO infoDTO) {
-        log.info("user {} 의 {} 한 달 내역 조회", infoDTO.getUserPk(), infoDTO.getLocalDate());
+    Map monthSearch(InfoDTO infoDTO) {
+        log.info("user {} 의 계좌 {} 한 달 내역 조회", infoDTO.getUserPk(), infoDTO.getAccount(), infoDTO.getLocalDate());
 
         HashMap<String, List<Info>> stringListHashMap = new HashMap<>();
 

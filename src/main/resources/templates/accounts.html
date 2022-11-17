@@ -405,8 +405,7 @@
 
                                 </div>
 
-                                <div class="h4 mb-0 font-weight-bold text-gray-700" id="spendingDay" style="margin-top: 10px; margin-left: 10px"></div>
-                                <div class="h4 mb-0 font-weight-bold text-gray-700" id="spendingMonth" style="margin-top: 10px; margin-left: 10px"></div>
+                                <div class="h1 mb-0 font-weight-bold text-gray-700" id="getLists" style="margin-top: 10px; margin-left: 10px"></div>
 
                             </div>
 
@@ -709,8 +708,8 @@
     }
 
     function btnMonth() {
-        if (confirm("월별 지출을 조회하시겠습니까?") == true) {
-            var date = document.getElementById("datetimepicker1Input").value;
+        if (confirm("월별 내역을 조회하시겠습니까?") == true) {
+            var date = document.getElementById("datetimepicker2Input").value;
 
             var year = date.substring(0, 4);
             var month = date.substring(6, 8);
@@ -732,14 +731,15 @@
                 data: {
                     userPk: document.getElementsByName("userPk")[0].value,
                     localDate: document.getElementById("dateMonth").value,
+                    account: document.getElementById("accountEachName").value,
                 }, // HTTP 요청과 함께 서버로 보낼 데이터
                 method: "Post",   // HTTP 요청 메소드(GET, POST 등)
                 dataType: "json" // 서버에서 보내줄 데이터의 타입
             })
                 // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
                 .done(function(json) {
-                    console.log(json.spendingMonth);
-                    document.getElementById("spendingMonth").innerHTML = "월별 지출 금액 : ₩ " + json.spendingMonth;
+                    console.log(json.getLists);
+                    document.getElementById("getLists").innerHTML = "월별 조회" + json.getLists;
                 })
 
                 // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
@@ -786,6 +786,7 @@
                 seconds: false,
                 minutes: false,
                 hours: false,
+                // days: false,
                 useTwentyfourHour: true,
             },
             icons: {
