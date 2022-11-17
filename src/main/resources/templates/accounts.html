@@ -416,6 +416,46 @@
 
 </body>
 
+<!--<a style="width: 50px; float: left;" id="changeContent" role="button"-->
+<!--      class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search collapse-item">-->
+<!--    <input type="hidden" name="id" value=list[i].id>-->
+<!--    <div class=\"input-group\">-->
+<!--        <div class="input-group-append collapse-item" id="changeSpendingContent"-->
+<!--             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--            <button onclick="btnChangeContent(i)" class = "btn btn-primary">-->
+<!--                <span>수정</span>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</a>-->
+
+<!--<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated&#45;&#45;grow-in"-->
+<!--     aria-labelledby="changeSpendingContent">-->
+<!--    <h6 class="dropdown-header">-->
+<!--        내역 수정-->
+<!--    </h6>-->
+<!--    <div class="dropdown-item d-flex align-items-center">-->
+<!--        <div>-->
+<!--            <form method="post" action="/update/detail" name="changeContent" onsubmit="return btnChangeContent()"-->
+<!--                  class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">-->
+<!--                <div class="input-group">-->
+<!--                    <input type="hidden" name="userPk" value=list[i].userPk.userPk>-->
+<!--                    <input type="hidden" name="account" value=list[i].account>-->
+<!--                    <input type="text" name="money" value="">-->
+<!--                    <input type="text" name="content" value="">-->
+<!--                    <input type="text" name="localDateTime" placeholder=list[i].localDateTime value="">-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button class="btn btn-primary">-->
+<!--                            <span>확인</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
 <!--<a class="collapse-item" href="#" id="changeDropdown" role="button"-->
 <!--   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
 
@@ -757,7 +797,8 @@
                                 "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
                                 "<input type=\"hidden\" name=\"id\" value=" + list[i].id +">" +
                                 "                <div class=\"input-group\">\n" +
-                                "                    <div class=\"input-group-append\">\n" +
+                                "                    <div class=\"input-group-append collapse-item\" id=\"changeSpendingContent\" \n" +
+                                "                           data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
                                 "                        <button onclick=\"btnChangeContent("+i+")\" class=\"btn btn-primary\">\n" +
                                 "                            <span>수정</span>\n" +
                                 "                        </button>\n" +
@@ -840,7 +881,12 @@
     }
 
     function btnChangeContent(i){
-
+        if (confirm("내역을 수정하시겠습니까?") == true){
+            document.changeContent[i].submit();
+            alert("내역이 수정되었습니다")
+        }else{
+            return false;
+        }
     }
 
     function btnDeleteContent(i){
