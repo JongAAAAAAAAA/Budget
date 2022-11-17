@@ -381,7 +381,7 @@
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">Records</h6>
-
+                                <h6 class="m-0 font-weight-bold text-black-50" style="float: right; font-size: small">수정 / 삭제</h6>
                             </div>
 
                             <div class="card-body">
@@ -458,6 +458,44 @@
 </div>
 
 </body>
+
+<!--<a class="collapse-item" href="#" id="changeDropdown" role="button"-->
+<!--   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+
+<!--    <span>추가</span>-->
+<!--</a>-->
+
+<!--<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated&#45;&#45;grow-in"-->
+<!--     aria-labelledby="addDropdown">-->
+<!--    <h6 class="dropdown-header">-->
+<!--        수정 / 삭제-->
+<!--    </h6>-->
+<!--    <div class="dropdown-item d-flex align-items-center">-->
+<!--        <div>-->
+<!--            <form method="post" action="/update/detail" style="width: 300px" name="changeContent"-->
+<!--                  class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">-->
+<!--                <div class="input-group">-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button onclick="btnChangeContent()" class="btn btn-primary">-->
+<!--                            <span>수정</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--            <form method="post" action="/delete/detail" style="width: 300px" name="deleteContent"-->
+<!--                  class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">-->
+<!--                <div class="input-group">-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button onclick="btnDeleteContent()" class="btn btn-danger">-->
+<!--                            <span>삭제</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 </html>
 
@@ -745,12 +783,82 @@
 
                     for(var i=0; i< list.length; i++) {
                         if (list[i].income == null){
-                            temp += "<i class=\"fas fa-fw fa-circle\"></i>&nbsp&nbsp&nbsp&nbsp" + "금액 : " + list[i].spending + " 원 " + "&nbsp&nbsp내용 : " + list[i].content
-                                + "<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp일자 : " + list[i].localDate + "<br><br>";
+                            temp +=
+                                "<a class=\"collapse-item\" href=\"#\" id=\"changeDropdown\" role=\"button\"\n" +
+                                "   data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">" +
+                                "<br><i class=\"fas fa-fw fa-circle\"></i>&nbsp&nbsp&nbsp&nbsp" + "금액 : " + list[i].spending + " 원 " + "&nbsp&nbsp내용 : " + list[i].content
+                                + "<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp일자 : " + list[i].localDate + "<br>"+
+                                "</a>" +
+                                "<div class=\"dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in\"\n" +
+                                "     aria-labelledby=\"addDropdown\">\n" +
+                                "    <h6 class=\"dropdown-header\">\n" +
+                                "        수정 / 삭제\n" +
+                                "    </h6>\n" +
+                                "    <div class=\"dropdown-item d-flex align-items-center\">\n" +
+                                "        <div>\n" +
+                                "            <form method=\"post\" action=\"/update/detail\" style=\"width: 100px\" name=\"changeContent\"\n" +
+                                "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "                <div class=\"input-group\">\n" +
+                                "                    <div class=\"input-group-append\">\n" +
+                                "                        <button onclick=\"btnChangeContent("+i+")\" class=\"btn btn-primary\">\n" +
+                                "                            <span>수정</span>\n" +
+                                "                        </button>\n" +
+                                "                    </div>\n" +
+                                "                </div>\n" +
+                                "            </form>\n" +
+                                "            <form method=\"post\" action=\"/delete/detail\" style=\"width: 100px\" name=\"deleteContent\" onsubmit=\"return btnDeleteContent("+i+")\n" +
+                                "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "                <div class=\"input-group\">\n" +
+                                "                    <div class=\"input-group-append\">\n" +
+                                "                        <button class=\"btn btn-danger\">\n" +
+                                "                            <span>삭제</span>\n" +
+                                "                        </button>\n" +
+                                "                    </div>\n" +
+                                "                </div>\n" +
+                                "            </form>\n" +
+                                "\n" +
+                                "        </div>\n" +
+                                "    </div>\n" +
+                                "</div>"
                         }
                         else {
-                            temp += "<i class=\"fas fa-fw fa-circle\"></i>&nbsp&nbsp&nbsp&nbsp" + "금액 : " + list[i].income + " 원 " + "&nbsp&nbsp내용 : " + list[i].content
-                                + "<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp일자 : " + list[i].localDate + "<br><br>";
+                            temp +=
+                                "<a class=\"collapse-item\" href=\"#\" id=\"changeDropdown\" role=\"button\"\n" +
+                                "   data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">" +
+                                "<br><i class=\"fas fa-fw fa-circle\"></i>&nbsp&nbsp&nbsp&nbsp" + "금액 : " + list[i].income + " 원 " + "&nbsp&nbsp내용 : " + list[i].content
+                                + "<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp일자 : " + list[i].localDate + "<br>"+
+                                "</a>" +
+                                "<div class=\"dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in\"\n" +
+                                "     aria-labelledby=\"addDropdown\">\n" +
+                                "    <h6 class=\"dropdown-header\">\n" +
+                                "        수정 / 삭제\n" +
+                                "    </h6>\n" +
+                                "    <div class=\"dropdown-item d-flex align-items-center\">\n" +
+                                "        <div>\n" +
+                                "            <form method=\"post\" action=\"/update/detail\" style=\"width: 100px\" name=\"changeContent\"\n" +
+                                "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "                <div class=\"input-group\">\n" +
+                                "                    <div class=\"input-group-append\">\n" +
+                                "                        <button onclick=\"btnChangeContent("+i+")\" class=\"btn btn-primary\">\n" +
+                                "                            <span>수정</span>\n" +
+                                "                        </button>\n" +
+                                "                    </div>\n" +
+                                "                </div>\n" +
+                                "            </form>\n" +
+                                "            <form method=\"post\" action=\"/delete/detail\" style=\"width: 100px\" name=\"deleteContent\" onsubmit=\"return btnDeleteContent("+i+")\n" +
+                                "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "                <div class=\"input-group\">\n" +
+                                "                    <div class=\"input-group-append\">\n" +
+                                "                        <button class=\"btn btn-danger\">\n" +
+                                "                            <span>삭제</span>\n" +
+                                "                        </button>\n" +
+                                "                    </div>\n" +
+                                "                </div>\n" +
+                                "            </form>\n" +
+                                "\n" +
+                                "        </div>\n" +
+                                "    </div>\n" +
+                                "</div>"
                         }
                     }
 
@@ -766,6 +874,19 @@
 
             alert("월별 내역이 조회되었습니다")
         } else {
+            return false;
+        }
+    }
+
+    function btnChangeContent(i){
+
+    }
+
+    function btnDeleteContent(i){
+        if (confirm("내역을 삭제하시겠습니까?") == true){
+            alert("내역이 삭제되었습니다")
+            document.deleteContent[i].submit();
+        }else{
             return false;
         }
     }
