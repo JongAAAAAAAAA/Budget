@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class UserAccountService { // Account 중복 및 User 검사
+public class UserAccountService { // Account 중복 및 User 검사 (비즈니스 로직)
     private final UserPkRepository userPkRepository;
     private final UserAccountRepository userAccountRepository;
 
