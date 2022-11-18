@@ -45,16 +45,6 @@ public class BudgetController {
         return "contact";
     }
 
-    @GetMapping("404.html")
-    String error() {
-        return "404";
-    }
-
-    @GetMapping("test.html")
-    String test() {
-        return "test";
-    }
-
     @ResponseBody
     @PostMapping("/register/user") // 유저 등록
     void userRegister(UserDTO userDTO){
@@ -112,7 +102,7 @@ public class BudgetController {
         });
     }
 
-    @PostMapping("/update/spending") // 지출
+    @PostMapping("/update/spending") // 지출 등록
     String spendingUpdate(InfoDTO infoDTO){
         log.info("user {} 의 계좌 : {}, 소비 금액 : {}, 날짜 : {}, 내용 : {}",
                 infoDTO.getUserPk(), infoDTO.getAccount(), infoDTO.getMoney(), infoDTO.getLocalDateTime(), infoDTO.getContent());
@@ -122,7 +112,7 @@ public class BudgetController {
         return "redirect:/";
     }
 
-    @PostMapping("/update/income") // 수입
+    @PostMapping("/update/income") // 수입 등록
     String incomeUpdate(InfoDTO infoDTO){
         log.info("user {} 의 계좌 : {}, 수입 금액 : {}, 날짜 : {}, 내용 : {}",
                 infoDTO.getUserPk(), infoDTO.getAccount(), infoDTO.getMoney(), infoDTO.getLocalDateTime(), infoDTO.getContent());
@@ -151,9 +141,9 @@ public class BudgetController {
     }
 
     @ResponseBody
-    @PostMapping("/search/total/all") // 총 예산 조회
+    @PostMapping("/search/total/all") // 전체 예산 조회
     Map totalSearch(InfoDTO infoDTO){
-        log.info("user {} 의 총 예산 조회", infoDTO.getUserPk());
+        log.info("user {} 의 전체 예산 조회", infoDTO.getUserPk());
 
         HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
@@ -176,8 +166,6 @@ public class BudgetController {
     @PostMapping("/search/spending/day") // 하루 지출 조회
     Map daySpendingSearch(InfoDTO infoDTO){
         log.info("user {} 의 {} 하루 지출 조회", infoDTO.getUserPk(), infoDTO.getLocalDate());
-
-        String userPk = infoDTO.getUserPk();
 
         HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
@@ -235,8 +223,8 @@ public class BudgetController {
 
         YearMonth baseMonth = YearMonth.from(infoDTO.getLocalDate());
 
-        LocalDate start = baseMonth.atDay(1);
-        LocalDate end = baseMonth.atEndOfMonth();
+        LocalDate start = baseMonth.atDay(1); // 들어온 날짜 기준 달의 첫 날
+        LocalDate end = baseMonth.atEndOfMonth(); // 들어온 날짜 기준 달의 마지막 날
 
         log.info(start.toString());
         log.info(end.toString());
@@ -268,9 +256,9 @@ public class BudgetController {
     }
 
     @ResponseBody
-    @PostMapping("/search/spending/all") // 총 지출 조회
+    @PostMapping("/search/spending/all") // 전체 지출 조회
     Map allSpendingSearch(InfoDTO infoDTO){
-        log.info("user {} 의 총 지출 조회", infoDTO.getUserPk());
+        log.info("user {} 의 전체 지출 조회", infoDTO.getUserPk());
 
         HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
 
@@ -314,7 +302,7 @@ public class BudgetController {
         return stringIntegerHashMap;
     }
 
-    @PostMapping("/update/detail") // 내역 수정
+    @PostMapping("/update/detail") // 세부 내역 수정
     String updateDetail(InfoDTO infoDTO){
         log.info("id {} 의 내역 수정", infoDTO.getId());
 
@@ -362,39 +350,6 @@ public class BudgetController {
         model.addAttribute("account", account);
 
         return "accounts";
-    }
-
-    @PostMapping("/test.html") // 목록에 있는 계좌 클릭 시 데이터 전송
-    String thymeleafTest1(UserAccountDTO userAccountDTO, Model model){
-        log.info("user {} 의 계좌 {} 선택", userAccountDTO.getUserPk(), userAccountDTO.getAccount());
-
-//        String userPk = userAccountDTO.getUserPk();
-        String account = userAccountDTO.getAccount();
-
-//        model.addAttribute("userPk", userPk);
-        model.addAttribute("account", account);
-
-        return "test";
-    }
-
-    @PostMapping("/test2.html") // 특정 계좌 지출 조회
-    String thymeleafTest2(InfoDTO infoDTO, Model model) {
-        log.info("user {} 의 계좌 {} 지출 조회", infoDTO.getUserPk(), infoDTO.getAccount());
-
-        Optional<List<Info>> getSpending = infoRepository.findByUserPkAndAccountAndIncome(
-                new UserPk(infoDTO.getUserPk()), infoDTO.getAccount(), null);
-
-        Integer spending = 0;
-
-        for (int i=0; i<getSpending.get().size(); i++){
-            spending += getSpending.get().get(i).getSpending();
-        }
-
-        log.info("spendingEach:{}", spending);
-
-        model.addAttribute("spendingEach", spending);
-
-        return "test";
     }
 
 }
