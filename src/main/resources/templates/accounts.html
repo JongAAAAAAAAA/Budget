@@ -416,13 +416,13 @@
 
 </body>
 
-<!--<a style="width: 50px; float: left;" id="changeContent" role="button"-->
+<!--<a style="width: 50px; float: left;" href="#" role="button"-->
 <!--      class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search collapse-item">-->
 <!--    <input type="hidden" name="id" value=list[i].id>-->
-<!--    <div class=\"input-group\">-->
+<!--    <div class="input-group">-->
 <!--        <div class="input-group-append collapse-item" id="changeSpendingContent"-->
 <!--             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--            <button onclick="btnChangeContent(i)" class = "btn btn-primary">-->
+<!--            <button class = "btn btn-primary">-->
 <!--                <span>수정</span>-->
 <!--            </button>-->
 <!--        </div>-->
@@ -436,7 +436,7 @@
 <!--    </h6>-->
 <!--    <div class="dropdown-item d-flex align-items-center">-->
 <!--        <div>-->
-<!--            <form method="post" action="/update/detail" name="changeContent" onsubmit="return btnChangeContent()"-->
+<!--            <form method="post" action="/update/detail" name="changeContent" onsubmit="return btnChangeContent(i)"-->
 <!--                  class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">-->
 <!--                <div class="input-group">-->
 <!--                    <input type="hidden" name="userPk" value=list[i].userPk.userPk>-->
@@ -508,7 +508,7 @@
                 url: '/v1/user/unlink',
                 success: function (response) {
                     console.log(response)
-                    location.href = 'http://localhost:8080/login.html'
+                    location.href = 'http://localhost:8080/'
                 },
                 fail: function (error) {
                     console.log(error)
@@ -786,40 +786,43 @@
                                 "<br><i class=\"fas fa-fw fa-minus\"></i>&nbsp&nbsp&nbsp&nbsp" + "금액 : " + list[i].spending + " 원 " + "&nbsp&nbsp내용 : " + list[i].content
                                 + "<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp일자 : " + list[i].localDate + "<br>"+
                                 "</a>" +
+                                ""+
                                 "<div class=\"dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in\"\n" +
                                 "     aria-labelledby=\"addDropdown\">\n" +
                                 "    <h6 class=\"dropdown-header\">\n" +
                                 "        수정 / 삭제\n" +
                                 "    </h6>\n" +
                                 "    <div class=\"dropdown-item d-flex align-items-center\">\n" +
-                                "        <div>\n" +
-                                "            <form method=\"post\" action=\"/update/detail\" style=\"width: 50px; float: left;\" name=\"changeContent\"\n" +
-                                "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
-                                "<input type=\"hidden\" name=\"id\" value=" + list[i].id +">" +
-                                "                <div class=\"input-group\">\n" +
-                                "                    <div class=\"input-group-append collapse-item\" id=\"changeSpendingContent\" \n" +
-                                "                           data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
-                                "                        <button onclick=\"btnChangeContent("+i+")\" class=\"btn btn-primary\">\n" +
-                                "                            <span>수정</span>\n" +
-                                "                        </button>\n" +
+                                "                <form method=\"post\" style='width: 100px' action=\"/update/detail\" name=\"changeContent\" onsubmit=\"return btnChangeContent("+i+")\"\n" +
+                                "                      class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "                    <div class=\"input-group\">\n" +
+                                "                        <input type=\"hidden\" name=\"id\" value="+list[i].id+">\n" +
+                                "                        <input type=\"hidden\" name=\"userPk\" value="+list[i].userPk.userPk+">\n" +
+                                "                        <input type=\"hidden\" name=\"account\" value="+list[i].account+">\n" +
+                                "                        <input type=\"text\" name=\"money\" placeholder=\"수정하실 금액을 적어주세요.\" value=\"\">\n" +
+                                "                        <input type=\"text\" name=\"content\" placeholder=\"수정하실 내용을 적어주세요.\" value=\"\">\n" +
+                                "                        <input type=\"text\" name=\"localDateTime\" value=\"2022-11-18 16:29:11\">\n" +
+                                // "                        <input type=\"hidden\" name=\"localDateTime1\" value=\"\">\n" +
                                 "                    </div>\n" +
-                                "                </div>\n" +
-                                "            </form>\n" +
-                                "            <form method=\"post\" action=\"/delete/detail\" style=\"width: 50px; float: right;\" name=\"deleteContent\"\n" +
-                                "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
-                                "<input type=\"hidden\" name=\"id\" value=" + list[i].id +">" +
-                                "                <div class=\"input-group\">\n" +
-                                "                    <div class=\"input-group-append\">\n" +
-                                "                        <button onclick='btnDeleteContent("+i+")' class=\"btn btn-danger\">\n" +
-                                "                            <span>삭제</span>\n" +
-                                "                        </button>\n" +
+                                "                    <button class=\"btn btn-primary\">\n" +
+                                "                           <span>수정</span>\n" +
+                                "                    </button>"+
+                                "                </form>\n" +
+                                "                <form method=\"post\" style='position: relative; top: 33px; right: 10px' action=\"/delete/detail\" name=\"deleteContent\"\n" +
+                                "                    class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "                    <input type=\"hidden\" name=\"id\" value=" + list[i].id +">" +
+                                "                    <div class=\"input-group\">\n" +
+                                "                        <div class=\"input-group-append\">\n" +
+                                "                            <button onclick='btnDeleteContent("+i+")' class=\"btn btn-danger\">\n" +
+                                "                                <span>삭제</span>\n" +
+                                "                            </button>\n" +
+                                "                        </div>\n" +
                                 "                    </div>\n" +
-                                "                </div>\n" +
-                                "            </form>\n" +
-                                "\n" +
-                                "        </div>\n" +
-                                "    </div>\n" +
+                                "                </form>\n" +
+                                "    </div>"+
                                 "</div>"
+
+                            console.log(list[i].localDateTime)
                         }
                         else {
                             temp +=
@@ -828,43 +831,49 @@
                                 "<br><i class=\"fas fa-fw fa-plus\"></i>&nbsp&nbsp&nbsp&nbsp" + "금액 : " + list[i].income + " 원 " + "&nbsp&nbsp내용 : " + list[i].content
                                 + "<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp일자 : " + list[i].localDate + "<br>"+
                                 "</a>" +
+                                ""+
                                 "<div class=\"dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in\"\n" +
                                 "     aria-labelledby=\"addDropdown\">\n" +
                                 "    <h6 class=\"dropdown-header\">\n" +
                                 "        수정 / 삭제\n" +
                                 "    </h6>\n" +
                                 "    <div class=\"dropdown-item d-flex align-items-center\">\n" +
-                                "        <div>\n" +
-                                "            <form method=\"post\" action=\"/update/detail\" style=\"width: 100px\" name=\"changeContent\"\n" +
-                                "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
-                                "<input type=\"hidden\" name=\"id\" value=" + list[i].id +">" +
-                                "                <div class=\"input-group\">\n" +
-                                "                    <div class=\"input-group-append\">\n" +
-                                "                        <button onclick=\"btnChangeContent("+i+")\" class=\"btn btn-primary\">\n" +
-                                "                            <span>수정</span>\n" +
-                                "                        </button>\n" +
+                                "                <form method=\"post\" style='width: 100px' action=\"/update/detail\" name=\"changeContent\" onsubmit=\"return btnChangeContent("+i+")\"\n" +
+                                "                      class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "                    <div class=\"input-group\">\n" +
+                                "                        <input type=\"hidden\" name=\"id\" value="+list[i].id+">\n" +
+                                "                        <input type=\"hidden\" name=\"userPk\" value="+list[i].userPk.userPk+">\n" +
+                                "                        <input type=\"hidden\" name=\"account\" value="+list[i].account+">\n" +
+                                "                        <input type=\"text\" name=\"money\" placeholder=\"수정하실 금액을 적어주세요.\" value=\"\">\n" +
+                                "                        <input type=\"text\" name=\"content\" placeholder=\"수정하실 내용을 적어주세요.\" value=\"\">\n" +
+                                "                        <input type=\"text\" name=\"localDateTime\" value="+list[i].localDateTime+">\n" +
+                                // "                        <input type=\"hidden\" name=\"localDateTime1\" value=\"\">\n" +
                                 "                    </div>\n" +
-                                "                </div>\n" +
-                                "            </form>\n" +
-                                "            <form method=\"post\" action=\"/delete/detail\" style=\"width: 100px\" name=\"deleteContent\"\n" +
-                                "                  class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
-                                "<input type=\"hidden\" name=\"id\" value=" + list[i].id +">" +
-                                "                <div class=\"input-group\">\n" +
-                                "                    <div class=\"input-group-append\">\n" +
-                                "                        <button onclick='btnDeleteContent("+i+")' class=\"btn btn-danger\">\n" +
-                                "                            <span>삭제</span>\n" +
-                                "                        </button>\n" +
+                                "                    <button class=\"btn btn-primary\">\n" +
+                                "                           <span>수정</span>\n" +
+                                "                    </button>"+
+                                "                </form>\n" +
+                                "                <form method=\"post\" style='position: relative; top: 33px; right: 10px' action=\"/delete/detail\" name=\"deleteContent\"\n" +
+                                "                    class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\">\n" +
+                                "                    <input type=\"hidden\" name=\"id\" value=" + list[i].id +">" +
+                                "                    <div class=\"input-group\">\n" +
+                                "                        <div class=\"input-group-append\">\n" +
+                                "                            <button onclick='btnDeleteContent("+i+")' class=\"btn btn-danger\">\n" +
+                                "                                <span>삭제</span>\n" +
+                                "                            </button>\n" +
+                                "                        </div>\n" +
                                 "                    </div>\n" +
-                                "                </div>\n" +
-                                "            </form>\n" +
-                                "\n" +
-                                "        </div>\n" +
-                                "    </div>\n" +
+                                "                </form>\n" +
+                                "    </div>"+
                                 "</div>"
                         }
                     }
-
                     document.getElementById("getLists").innerHTML = temp;
+
+                    console.log("로그 :", document.getElementsByName("localDateTime")[0].value)
+                    // for (var i=0; i<list.length; i++){
+                    //     document.getElementsByName("localDateTime")[i].value= document.getElementsByName("localDateTime1")[i].value+":00";
+                    // }
                 })
 
                 // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
@@ -896,6 +905,10 @@
         }else{
             return false;
         }
+    }
+
+    function btnContentChanged(){
+
     }
 
 </script>
