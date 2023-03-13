@@ -1,7 +1,8 @@
 # Budget
 
-This project is Budget
+This project is Budget Management Web
 
+내 계좌의 예산을 관리해주는 웹사이트 입니다.
 
 Tool : IntelliJ IDEA
 
